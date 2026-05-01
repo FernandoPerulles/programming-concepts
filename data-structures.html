@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data Structures — Master Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0e0f11;
+    --surface: #16181c;
+    --surface2: #1e2127;
+    --border: #2a2d35;
+    --border2: #363b47;
+    --text: #e8eaf0;
+    --muted: #7a8090;
+    --faint: #3a3f4a;
+    --accent-blue: #5b9cf6;
+    --accent-teal: #38c9a0;
+    --accent-amber: #f5a623;
+    --accent-coral: #f07060;
+    --accent-purple: #a78bf6;
+    --accent-green: #6bcb77;
+    --code-bg: #12141a;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    width: 240px;
+    min-width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 2rem 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+  .nav-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  nav a {
+    display: block;
+    padding: 0.45rem 1.5rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  nav a:hover { color: var(--text); background: var(--surface2); }
+  nav a.active { color: var(--accent-teal); border-left-color: var(--accent-teal); background: rgba(56,201,160,0.06); }
+  .nav-section {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    padding: 1.25rem 1.5rem 0.4rem;
+  }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    max-width: 860px;
+    padding: 3rem 3rem 6rem;
+    overflow-x: hidden;
+  }
+
+  /* SECTIONS */
+  section { margin-bottom: 5rem; }
+  .section-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-teal);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin: 1.75rem 0 0.6rem;
+    letter-spacing: 0.02em;
+  }
+  p { color: var(--text); margin-bottom: 0.9rem; line-height: 1.8; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 500; color: #fff; }
+  em { color: var(--accent-amber); font-style: normal; font-family: 'IBM Plex Mono', monospace; font-size: 0.88em; }
+
+  /* CODE */
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85em;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--accent-teal);
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  pre .kw { color: var(--accent-purple); }
+  pre .fn { color: var(--accent-blue); }
+  pre .str { color: var(--accent-teal); }
+  pre .cm { color: var(--muted); font-style: italic; }
+  pre .num { color: var(--accent-amber); }
+  pre .op { color: var(--accent-coral); }
+
+  /* CALLOUTS */
+  .callout {
+    border-left: 3px solid;
+    padding: 1rem 1.25rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 1.25rem 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .callout.info { border-color: var(--accent-blue); background: rgba(91,156,246,0.07); }
+  .callout.warn { border-color: var(--accent-amber); background: rgba(245,166,35,0.07); }
+  .callout.key  { border-color: var(--accent-teal); background: rgba(56,201,160,0.07); }
+  .callout.danger { border-color: var(--accent-coral); background: rgba(240,112,96,0.07); }
+  .callout-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+  .callout.info .callout-label { color: var(--accent-blue); }
+  .callout.warn .callout-label { color: var(--accent-amber); }
+  .callout.key .callout-label  { color: var(--accent-teal); }
+  .callout.danger .callout-label { color: var(--accent-coral); }
+
+  /* TAGS / BADGES */
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+  .badge-o1   { background: rgba(107,203,119,0.15); color: var(--accent-green); }
+  .badge-on   { background: rgba(245,166,35,0.15);  color: var(--accent-amber); }
+  .badge-ologn{ background: rgba(91,156,246,0.15);  color: var(--accent-blue); }
+  .badge-on2  { background: rgba(240,112,96,0.15);  color: var(--accent-coral); }
+  .badge-na   { background: rgba(122,128,144,0.15); color: var(--muted); }
+
+  /* VISUAL: MEMORY BLOCKS */
+  .mem-row {
+    display: flex;
+    gap: 2px;
+    align-items: stretch;
+    margin: 1rem 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+  }
+  .mem-cell {
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    min-width: 48px;
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 4px;
+  }
+  .mem-cell.highlight { border-color: var(--accent-teal); background: rgba(56,201,160,0.1); color: var(--accent-teal); }
+  .mem-cell .idx { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
+  .mem-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+
+  /* VISUAL: LINKED LIST */
+  .ll-container { display: flex; align-items: center; gap: 0; margin: 1rem 0; flex-wrap: wrap; }
+  .ll-node {
+    display: flex;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--surface2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    overflow: hidden;
+  }
+  .ll-data { padding: 8px 12px; border-right: 1px solid var(--border2); color: var(--accent-teal); }
+  .ll-ptr  { padding: 8px 10px; color: var(--accent-purple); font-size: 11px; }
+  .ll-arrow { display: flex; align-items: center; padding: 0 6px; color: var(--muted); font-size: 18px; }
+  .ll-null  { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent-coral); padding: 8px; border: 1px dashed var(--border2); border-radius: var(--radius); }
+
+  /* VISUAL: STACK & QUEUE */
+  .stack-vis { display: inline-flex; flex-direction: column-reverse; gap: 2px; vertical-align: top; }
+  .stack-cell {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 7px 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    text-align: center;
+    transition: all 0.2s;
+    color: var(--text);
+  }
+  .stack-cell.top { border-color: var(--accent-teal); color: var(--accent-teal); background: rgba(56,201,160,0.08); }
+  .queue-vis { display: inline-flex; flex-direction: row; gap: 2px; vertical-align: top; }
+  .queue-cell {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    text-align: center;
+    color: var(--text);
+  }
+  .queue-cell.front { border-color: var(--accent-amber); color: var(--accent-amber); background: rgba(245,166,35,0.08); }
+  .queue-cell.back  { border-color: var(--accent-purple); color: var(--accent-purple); background: rgba(167,139,246,0.08); }
+
+  /* STEP TABLE */
+  .step-table { width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; margin: 1rem 0; }
+  .step-table th { background: var(--surface2); color: var(--muted); font-weight: 500; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .step-table td { padding: 7px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+  .step-table tr:last-child td { border-bottom: none; }
+  .step-table td.op-cell { color: var(--accent-blue); }
+  .step-table td.ret-cell { color: var(--accent-amber); }
+  .step-table td.state-cell { color: var(--accent-teal); }
+  .step-table td.desc-cell { color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px; }
+
+  /* TREE VISUAL */
+  .tree-svg { background: transparent; }
+
+  /* BIG O TABLE */
+  .bigo-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 1.25rem 0; }
+  .bigo-table th { background: var(--surface2); color: var(--muted); padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; white-space: nowrap; }
+  .bigo-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .bigo-table tr:last-child td { border-bottom: none; }
+  .bigo-table td:first-child { font-weight: 500; color: var(--text); }
+  .bigo-table td:not(:first-child) { text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+  .bigo-table tr:hover td { background: var(--surface2); }
+
+  /* HASH VIS */
+  .hash-table-vis { display: grid; grid-template-columns: 60px 1fr; gap: 2px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; margin: 1rem 0; max-width: 500px; }
+  .hash-idx { background: var(--surface2); border: 1px solid var(--border); padding: 6px 10px; text-align: center; color: var(--muted); border-radius: 4px 0 0 4px; }
+  .hash-val { background: var(--code-bg); border: 1px solid var(--border); padding: 6px 12px; color: var(--accent-teal); border-radius: 0 4px 4px 0; }
+  .hash-val.collision { border-color: var(--accent-amber); color: var(--accent-amber); }
+  .hash-empty { color: var(--faint); font-style: italic; }
+
+  /* GRAPH */
+  .graph-svg { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+
+  /* DECISION GUIDE */
+  .decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+  .decision-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.25rem;
+  }
+  .decision-card .dc-title { font-weight: 500; color: var(--text); margin-bottom: 0.5rem; font-size: 14px; }
+  .decision-card .dc-when { font-size: 12.5px; color: var(--muted); margin-bottom: 0.6rem; }
+  .decision-card .dc-badge { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--accent-teal); }
+
+  /* DIVIDERS */
+  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+  /* INTRO HERO */
+  .hero-meta { display: flex; gap: 1.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .hero-meta-item { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); }
+  .hero-meta-item span { color: var(--accent-teal); }
+
+  /* COMPLEXITY CHART BARS */
+  .complexity-vis { margin: 1.5rem 0; }
+  .cx-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .cx-label { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); min-width: 90px; text-align: right; }
+  .cx-bar-bg { flex: 1; background: var(--surface2); border-radius: 3px; height: 22px; overflow: hidden; }
+  .cx-bar { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-left: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #000; transition: width 0.8s ease; }
+  .cx-note { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); min-width: 80px; }
+
+  @media (max-width: 900px) {
+    nav { display: none; }
+    main { padding: 2rem 1.25rem 4rem; }
+    .decision-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">// Data Structures</div>
+  <div class="nav-section">Foundation</div>
+  <a href="#intro" class="active">Introduction</a>
+  <a href="#bigo">Big O Notation</a>
+  <div class="nav-section">Structures</div>
+  <a href="#arrays">01 — Arrays</a>
+  <a href="#linked-lists">02 — Linked Lists</a>
+  <a href="#stacks">03 — Stacks</a>
+  <a href="#queues">04 — Queues</a>
+  <a href="#trees">05 — Trees</a>
+  <a href="#hash-tables">06 — Hash Tables</a>
+  <a href="#graphs">07 — Graphs</a>
+  <div class="nav-section">Reference</div>
+  <a href="#complexity">Complexity Table</a>
+  <a href="#decision">Decision Guide</a>
+</nav>
+
+<main>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <div class="section-tag">Master Reference</div>
+    <h1>Data Structures</h1>
+    <p>A data structure is a way of <strong>organizing data in memory</strong> so that it can be used efficiently. The word "efficiently" is the key — it means performing operations (access, search, insert, delete) with the least amount of time and memory. Every data structure is a trade-off: fast at some things, slow at others. Understanding those trade-offs is the entire game.</p>
+    <p>This reference covers the seven most fundamental data structures, with crystal-clear conceptual explanations, visual models, step-by-step operation traces, and the Big O complexities you need to make professional decisions.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">Structures covered: <span>7</span></div>
+      <div class="hero-meta-item">Big O analysis: <span>included</span></div>
+      <div class="hero-meta-item">Level: <span>beginner → intermediate</span></div>
+    </div>
+    <div class="callout key" style="margin-top:1.5rem">
+      <div class="callout-label">Mental Model</div>
+      Think of data structures like physical containers in a warehouse. An array is a numbered shelf — you can walk straight to position 7. A linked list is a scavenger hunt — each clue tells you where to find the next one. A hash table is a magic filing cabinet — you tell it the name and it instantly opens the right drawer. Each is useful, each has limits.
+    </div>
+  </section>
+
+  <!-- BIG O -->
+  <section id="bigo">
+    <div class="section-tag">Foundation</div>
+    <h2>Big O Notation</h2>
+    <p>Before studying any data structure, you <strong>must</strong> understand Big O. It is the universal language programmers use to describe how an algorithm's performance scales as the size of the input grows. We denote input size as <em>n</em>.</p>
+    <p>Big O describes the <strong>worst-case scenario</strong> and ignores constants — we don't care if something takes 2n or 5n steps; both are O(n). We care about the <em>shape</em> of the curve, not the exact number.</p>
+
+    <h3>The Complexity Classes — from best to worst</h3>
+
+    <div class="complexity-vis">
+      <div class="cx-row">
+        <div class="cx-label">O(1)</div>
+        <div class="cx-bar-bg"><div class="cx-bar" style="width:4%; background:#6bcb77;">O(1)</div></div>
+        <div class="cx-note">Constant</div>
+      </div>
+      <div class="cx-row">
+        <div class="cx-label">O(log n)</div>
+        <div class="cx-bar-bg"><div class="cx-bar" style="width:14%; background:#5b9cf6;">O(log n)</div></div>
+        <div class="cx-note">Logarithmic</div>
+      </div>
+      <div class="cx-row">
+        <div class="cx-label">O(n)</div>
+        <div class="cx-bar-bg"><div class="cx-bar" style="width:32%; background:#f5a623;">O(n)</div></div>
+        <div class="cx-note">Linear</div>
+      </div>
+      <div class="cx-row">
+        <div class="cx-label">O(n log n)</div>
+        <div class="cx-bar-bg"><div class="cx-bar" style="width:52%; background:#a78bf6;">O(n log n)</div></div>
+        <div class="cx-note">Linearithmic</div>
+      </div>
+      <div class="cx-row">
+        <div class="cx-label">O(n²)</div>
+        <div class="cx-bar-bg"><div class="cx-bar" style="width:80%; background:#f07060;">O(n²)</div></div>
+        <div class="cx-note">Quadratic</div>
+      </div>
+      <div class="cx-row">
+        <div class="cx-label">O(2ⁿ)</div>
+        <div class="cx-bar-bg"><div class="cx-bar" style="width:98%; background:#cc3333;">O(2ⁿ)</div></div>
+        <div class="cx-note">Exponential</div>
+      </div>
+    </div>
+
+    <table class="bigo-table">
+      <thead><tr><th>Notation</th><th>Name</th><th>n=10</th><th>n=100</th><th>n=1,000</th><th>Real Example</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-o1">O(1)</span></td><td>Constant</td><td>1</td><td>1</td><td>1</td><td>Array index access</td></tr>
+        <tr><td><span class="badge badge-ologn">O(log n)</span></td><td>Logarithmic</td><td>3</td><td>7</td><td>10</td><td>Binary search tree lookup</td></tr>
+        <tr><td><span class="badge badge-on">O(n)</span></td><td>Linear</td><td>10</td><td>100</td><td>1,000</td><td>Scanning a linked list</td></tr>
+        <tr><td><span class="badge badge-on">O(n log n)</span></td><td>Linearithmic</td><td>33</td><td>664</td><td>9,966</td><td>Merge sort, heap sort</td></tr>
+        <tr><td><span class="badge badge-on2">O(n²)</span></td><td>Quadratic</td><td>100</td><td>10,000</td><td>1,000,000</td><td>Bubble sort, nested loops</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      <div class="callout-label">Important Nuance</div>
+      Big O measures <strong>time complexity</strong> (how long) and <strong>space complexity</strong> (how much memory) separately. A data structure might be O(1) to insert but O(n) in space. Always consider both dimensions.
+    </div>
+
+    <h3>How to Read It</h3>
+    <p>When you see <em>O(log n)</em> for a binary search tree lookup, it means: if your tree has 1,000 nodes, you need at most ~10 comparisons to find any element. If you double the tree to 2,000 nodes, you only need ~11 comparisons. The performance degrades incredibly slowly — this is the power of logarithmic algorithms.</p>
+    <p>When you see <em>O(n)</em> for a linked list search, it means: with 1,000 elements, you may need to check all 1,000. With 2,000, you may check all 2,000. It scales directly with the data size.</p>
+  </section>
+
+  <!-- ARRAYS -->
+  <section id="arrays">
+    <div class="section-tag">Structure 01</div>
+    <h2>Arrays</h2>
+    <p>An array is a collection of elements stored in <strong>contiguous (adjacent) memory locations</strong>. This is the single most important fact about arrays. Because every element is the same size and they sit next to each other in memory, the CPU can jump directly to any element using simple arithmetic:</p>
+
+    <pre><code><span class="cm">// address of element at index i:</span>
+address = base_address + (i × element_size)
+
+<span class="cm">// Example: int array starts at address 1000, each int = 4 bytes</span>
+arr[0] → 1000  <span class="cm">// base</span>
+arr[1] → 1004  <span class="cm">// +4</span>
+arr[4] → 1016  <span class="cm">// +16</span></code></pre>
+
+    <p>This is why array index access is <strong>O(1)</strong> — constant time, regardless of array size. The CPU doesn't scan; it computes.</p>
+
+    <h3>Memory Layout</h3>
+    <div class="mem-label">Array: [10, 25, 8, 42, 17] — contiguous in memory</div>
+    <div class="mem-row">
+      <div class="mem-cell highlight">10<span class="idx">[0]</span></div>
+      <div class="mem-cell">25<span class="idx">[1]</span></div>
+      <div class="mem-cell">8<span class="idx">[2]</span></div>
+      <div class="mem-cell">42<span class="idx">[3]</span></div>
+      <div class="mem-cell">17<span class="idx">[4]</span></div>
+      <div class="mem-cell" style="opacity:0.3">...<span class="idx">free</span></div>
+      <div class="mem-cell" style="opacity:0.3">...<span class="idx">free</span></div>
+    </div>
+
+    <h3>Static vs. Dynamic Arrays</h3>
+    <p><strong>Static arrays</strong> have a fixed size declared at creation time (C, C++). If you need more space, you manually allocate a new array and copy everything. <strong>Dynamic arrays</strong> handle this automatically (Python lists, Java ArrayList, JavaScript arrays). Under the hood, they still use a contiguous block but over-allocate by roughly 2× when they run out of room, making amortized insertion O(1).</p>
+
+    <div class="callout info">
+      <div class="callout-label">Why Insertion is O(n)</div>
+      To insert an element at index 2 in an array of 1,000 elements, you must <strong>shift every element from index 2 to 999 one position to the right</strong> to make room. That's up to n operations — hence O(n). Appending to the end is O(1) (amortized) because no shifting is needed.
+    </div>
+
+    <h3>Strengths &amp; Weaknesses</h3>
+    <table class="bigo-table">
+      <thead><tr><th>Operation</th><th>Time</th><th>Explanation</th></tr></thead>
+      <tbody>
+        <tr><td>Access by index</td><td><span class="badge badge-o1">O(1)</span></td><td>Direct memory jump via arithmetic</td></tr>
+        <tr><td>Search (unsorted)</td><td><span class="badge badge-on">O(n)</span></td><td>Must scan every element</td></tr>
+        <tr><td>Search (sorted)</td><td><span class="badge badge-ologn">O(log n)</span></td><td>Binary search is possible</td></tr>
+        <tr><td>Insert at end</td><td><span class="badge badge-o1">O(1)*</span></td><td>Amortized (dynamic arrays)</td></tr>
+        <tr><td>Insert at middle</td><td><span class="badge badge-on">O(n)</span></td><td>Requires shifting elements</td></tr>
+        <tr><td>Delete at middle</td><td><span class="badge badge-on">O(n)</span></td><td>Requires shifting elements</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout key">
+      <div class="callout-label">Use Arrays When</div>
+      You need fast random access by index. You're storing a fixed or slowly-changing collection. Your primary operations are reads, not inserts/deletes in the middle. Examples: pixel buffers, lookup tables, storing a fixed-size dataset, implementing other data structures internally.
+    </div>
+  </section>
+
+  <!-- LINKED LISTS -->
+  <section id="linked-lists">
+    <div class="section-tag">Structure 02</div>
+    <h2>Linked Lists</h2>
+    <p>A linked list stores elements in <strong>nodes</strong> scattered anywhere in memory. Each node holds two things: its data, and a <strong>pointer (reference) to the next node</strong>. Unlike arrays, there is no contiguous block — nodes are connected by pointers forming a chain.</p>
+
+    <h3>Singly Linked List</h3>
+    <p>Each node has one pointer: <em>next</em>. Traversal is one-way only.</p>
+
+    <div class="ll-container">
+      <div class="ll-node"><div class="ll-data">10</div><div class="ll-ptr">next→</div></div>
+      <div class="ll-arrow">→</div>
+      <div class="ll-node"><div class="ll-data">25</div><div class="ll-ptr">next→</div></div>
+      <div class="ll-arrow">→</div>
+      <div class="ll-node"><div class="ll-data">8</div><div class="ll-ptr">next→</div></div>
+      <div class="ll-arrow">→</div>
+      <div class="ll-node"><div class="ll-data">42</div><div class="ll-ptr">next→</div></div>
+      <div class="ll-arrow">→</div>
+      <div class="ll-null">NULL</div>
+    </div>
+
+    <h3>Doubly Linked List</h3>
+    <p>Each node has <strong>two pointers</strong>: <em>prev</em> and <em>next</em>. You can traverse in both directions, at the cost of extra memory per node.</p>
+
+    <div class="ll-container" style="flex-wrap:wrap">
+      <div class="ll-node">
+        <div class="ll-ptr" style="border-right:1px solid var(--border2)">←prev</div>
+        <div class="ll-data">10</div>
+        <div class="ll-ptr">next→</div>
+      </div>
+      <div class="ll-arrow">⟷</div>
+      <div class="ll-node">
+        <div class="ll-ptr" style="border-right:1px solid var(--border2)">←prev</div>
+        <div class="ll-data">25</div>
+        <div class="ll-ptr">next→</div>
+      </div>
+      <div class="ll-arrow">⟷</div>
+      <div class="ll-node">
+        <div class="ll-ptr" style="border-right:1px solid var(--border2)">←prev</div>
+        <div class="ll-data">8</div>
+        <div class="ll-ptr">next→</div>
+      </div>
+    </div>
+
+    <pre><code><span class="cm">// A node in a singly linked list</span>
+<span class="kw">class</span> <span class="fn">Node</span>:
+    data  <span class="cm">= the value</span>
+    next  <span class="cm">= pointer to next node (or NULL at the end)</span>
+
+<span class="cm">// Insertion at head — O(1)</span>
+new_node.next = head
+head = new_node
+
+<span class="cm">// Insertion in middle — requires traversal first: O(n)</span>
+<span class="cm">// then pointer reassignment: O(1)</span></code></pre>
+
+    <div class="callout warn">
+      <div class="callout-label">The Critical Trade-off</div>
+      When people say "insertion in a linked list is O(1)", they mean the <strong>actual pointer-swapping operation</strong> is O(1) — once you have the node you want to insert after. But <strong>finding that position</strong> requires O(n) traversal from the head. The full story is: O(n) to find + O(1) to insert. Always specify which part you mean.
+    </div>
+
+    <h3>Why No Random Access?</h3>
+    <p>Nodes are scattered across memory with no mathematical relationship between addresses. To get element at index 4, you must follow the chain: head → node1 → node2 → node3 → node4. That's O(n) — you can't compute the address directly like arrays can.</p>
+
+    <table class="bigo-table">
+      <thead><tr><th>Operation</th><th>Time</th><th>Explanation</th></tr></thead>
+      <tbody>
+        <tr><td>Access by index</td><td><span class="badge badge-on">O(n)</span></td><td>Must traverse from head</td></tr>
+        <tr><td>Search</td><td><span class="badge badge-on">O(n)</span></td><td>Must scan node by node</td></tr>
+        <tr><td>Insert at head</td><td><span class="badge badge-o1">O(1)</span></td><td>Just update head pointer</td></tr>
+        <tr><td>Insert (given node ref)</td><td><span class="badge badge-o1">O(1)</span></td><td>Just swap two pointers</td></tr>
+        <tr><td>Delete (given node ref)</td><td><span class="badge badge-o1">O(1)</span></td><td>Just update preceding pointer</td></tr>
+        <tr><td>Insert/Delete by value</td><td><span class="badge badge-on">O(n)</span></td><td>Must search first</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout key">
+      <div class="callout-label">Use Linked Lists When</div>
+      You need frequent insertions/deletions at the beginning or at known positions. You don't know the size in advance and want no wasted memory. You're implementing stacks, queues, or adjacency lists for graphs. Examples: browser history (doubly linked), undo/redo systems, OS process scheduling queues.
+    </div>
+  </section>
+
+  <!-- STACKS -->
+  <section id="stacks">
+    <div class="section-tag">Structure 03</div>
+    <h2>Stacks</h2>
+    <p>A stack is an <strong>abstract data type (ADT)</strong> that enforces a <strong>LIFO</strong> (Last In, First Out) ordering. Think of a stack of plates — you can only put a plate on top or take one off the top. You have no access to plates in the middle.</p>
+
+    <p>A stack has exactly three fundamental operations:</p>
+    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text);">
+      <li><strong>push(x)</strong> — add element x to the top</li>
+      <li><strong>pop()</strong> — remove and return the top element</li>
+      <li><strong>peek()</strong> — return the top element without removing it</li>
+    </ul>
+
+    <h3>Step-by-Step State Trace</h3>
+    <p>Every operation below shows the resulting stack state. The <em>top</em> is the right-most element:</p>
+
+    <table class="step-table">
+      <thead>
+        <tr><th>#</th><th>Operation</th><th>Returns</th><th>Stack State (→ top)</th><th>Explanation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td class="op-cell">push(1)</td><td class="ret-cell">—</td><td class="state-cell">[1]</td><td class="desc-cell">Stack was empty</td></tr>
+        <tr><td>2</td><td class="op-cell">push(2)</td><td class="ret-cell">—</td><td class="state-cell">[1, 2]</td><td class="desc-cell">2 sits on top of 1</td></tr>
+        <tr><td>3</td><td class="op-cell">push(3)</td><td class="ret-cell">—</td><td class="state-cell">[1, 2, 3]</td><td class="desc-cell">3 is now on top</td></tr>
+        <tr><td>4</td><td class="op-cell">pop()</td><td class="ret-cell">3</td><td class="state-cell">[1, 2]</td><td class="desc-cell">Last in (3) is first out</td></tr>
+        <tr><td>5</td><td class="op-cell">push(4)</td><td class="ret-cell">—</td><td class="state-cell">[1, 2, 4]</td><td class="desc-cell">4 is new top</td></tr>
+        <tr><td>6</td><td class="op-cell">peek()</td><td class="ret-cell">4</td><td class="state-cell">[1, 2, 4]</td><td class="desc-cell">Peek doesn't modify state</td></tr>
+        <tr><td>7</td><td class="op-cell">pop()</td><td class="ret-cell">4</td><td class="state-cell">[1, 2]</td><td class="desc-cell">4 removed</td></tr>
+        <tr><td>8</td><td class="op-cell">pop()</td><td class="ret-cell">2</td><td class="state-cell">[1]</td><td class="desc-cell">2 removed</td></tr>
+        <tr><td>9</td><td class="op-cell">push(5)</td><td class="ret-cell">—</td><td class="state-cell">[1, 5]</td><td class="desc-cell">5 is new top</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Visual Representation</h3>
+    <p>After step 9, the stack looks like this (top = 5):</p>
+    <div style="margin: 1rem 0;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:6px;">← top</div>
+      <div class="stack-vis">
+        <div class="stack-cell">1</div>
+        <div class="stack-cell top">5 ← top</div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-label">Implementation</div>
+      A stack is an ADT — it describes <em>behavior</em>, not implementation. You can build one with an array (track a "top" index) or a linked list (always insert/delete from head). The choice affects memory usage but not the O(1) complexity of push/pop.
+    </div>
+
+    <table class="bigo-table">
+      <thead><tr><th>Operation</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td>push(x)</td><td><span class="badge badge-o1">O(1)</span></td></tr>
+        <tr><td>pop()</td><td><span class="badge badge-o1">O(1)</span></td></tr>
+        <tr><td>peek()</td><td><span class="badge badge-o1">O(1)</span></td></tr>
+        <tr><td>search</td><td><span class="badge badge-on">O(n)</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout key">
+      <div class="callout-label">Real-World Uses of Stacks</div>
+      Function call stack (every function call pushes a frame; return pops it). Undo/redo in text editors. Browser back button. Expression parsing and evaluation (e.g., converting infix to postfix notation). Depth-first search (DFS) in graphs. Balanced parentheses checking.
+    </div>
+  </section>
+
+  <!-- QUEUES -->
+  <section id="queues">
+    <div class="section-tag">Structure 04</div>
+    <h2>Queues</h2>
+    <p>A queue is an ADT that enforces <strong>FIFO</strong> (First In, First Out) ordering. Think of a checkout line — the first person in line is the first to be served. New people join at the back; service happens at the front.</p>
+
+    <p>The fundamental operations:</p>
+    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text);">
+      <li><strong>enqueue(x)</strong> — add element x to the back</li>
+      <li><strong>dequeue()</strong> — remove and return the front element</li>
+      <li><strong>peek()</strong> — return the front element without removing it</li>
+    </ul>
+
+    <h3>Step-by-Step State Trace</h3>
+    <p>Front is the left-most element (next to be dequeued), back is right-most:</p>
+
+    <table class="step-table">
+      <thead>
+        <tr><th>#</th><th>Operation</th><th>Returns</th><th>Queue State (front → back)</th><th>Explanation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td class="op-cell">enqueue("alice")</td><td class="ret-cell">—</td><td class="state-cell">["alice"]</td><td class="desc-cell">Alice is first in line</td></tr>
+        <tr><td>2</td><td class="op-cell">enqueue("bob")</td><td class="ret-cell">—</td><td class="state-cell">["alice", "bob"]</td><td class="desc-cell">Bob joins the back</td></tr>
+        <tr><td>3</td><td class="op-cell">enqueue("carol")</td><td class="ret-cell">—</td><td class="state-cell">["alice", "bob", "carol"]</td><td class="desc-cell">Carol joins the back</td></tr>
+        <tr><td>4</td><td class="op-cell">dequeue()</td><td class="ret-cell">"alice"</td><td class="state-cell">["bob", "carol"]</td><td class="desc-cell">First in (alice) is first out</td></tr>
+        <tr><td>5</td><td class="op-cell">enqueue("dan")</td><td class="ret-cell">—</td><td class="state-cell">["bob", "carol", "dan"]</td><td class="desc-cell">Dan joins the back</td></tr>
+        <tr><td>6</td><td class="op-cell">dequeue()</td><td class="ret-cell">"bob"</td><td class="state-cell">["carol", "dan"]</td><td class="desc-cell">Bob served next</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Visual Representation (after step 6)</h3>
+    <div style="margin: 1rem 0;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:6px;">dequeue from front ←&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enqueue to back →</div>
+      <div class="queue-vis">
+        <div class="queue-cell front">carol ← front</div>
+        <div class="queue-cell">dan</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;padding:7px 8px;color:var(--muted)">← back</div>
+      </div>
+    </div>
+
+    <h3>Variants</h3>
+    <p><strong>Priority Queue</strong> — elements are dequeued by priority, not arrival order. Usually implemented with a heap. Used in Dijkstra's shortest path, job schedulers, and A* pathfinding.</p>
+    <p><strong>Deque (double-ended queue)</strong> — supports enqueue and dequeue at <em>both</em> ends. Useful for sliding window problems and implementing both stacks and queues.</p>
+    <p><strong>Circular Queue</strong> — a fixed-size queue implemented with an array where the back wraps around to the front. Avoids wasted space after dequeuing.</p>
+
+    <table class="bigo-table">
+      <thead><tr><th>Operation</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td>enqueue(x)</td><td><span class="badge badge-o1">O(1)</span></td></tr>
+        <tr><td>dequeue()</td><td><span class="badge badge-o1">O(1)</span></td></tr>
+        <tr><td>peek()</td><td><span class="badge badge-o1">O(1)</span></td></tr>
+        <tr><td>search</td><td><span class="badge badge-on">O(n)</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout key">
+      <div class="callout-label">Real-World Uses of Queues</div>
+      CPU task scheduling. Print spooler. BFS (breadth-first search) in graphs. Event loops (JavaScript's event queue). Network packet buffering. Rate limiting and request queues in web servers.
+    </div>
+  </section>
+
+  <!-- TREES -->
+  <section id="trees">
+    <div class="section-tag">Structure 05</div>
+    <h2>Trees</h2>
+    <p>A tree is a <strong>hierarchical, non-linear</strong> data structure of nodes connected by edges. Unlike arrays or linked lists which are linear (one element after another), a tree branches. Key vocabulary you must know:</p>
+
+    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text); line-height: 2;">
+      <li><strong>Root</strong> — the top-most node with no parent</li>
+      <li><strong>Node</strong> — each element in the tree</li>
+      <li><strong>Edge</strong> — the connection between parent and child</li>
+      <li><strong>Leaf</strong> — a node with no children</li>
+      <li><strong>Height</strong> — longest path from root to a leaf</li>
+      <li><strong>Depth</strong> — distance of a node from the root</li>
+      <li><strong>Subtree</strong> — a node and all its descendants</li>
+    </ul>
+
+    <h3>Binary Search Tree (BST)</h3>
+    <p>The most fundamental tree type. Every node has at most <strong>two children</strong>. The critical BST invariant (rule) is:</p>
+
+    <div class="callout danger">
+      <div class="callout-label">The BST Rule — memorize this</div>
+      For every node N: all values in the <strong>left subtree are less than N</strong>, and all values in the <strong>right subtree are greater than N</strong>. This rule must hold for every node, not just the root.
+    </div>
+
+    <h3>BST Visual — nodes [4, 2, 6, 1, 3, 5, 7]</h3>
+
+    <svg viewBox="0 0 500 280" class="tree-svg" width="100%" style="max-width:500px;margin:1rem 0;">
+      <!-- Edges -->
+      <line x1="250" y1="50" x2="140" y2="120" stroke="#2a2d35" stroke-width="2"/>
+      <line x1="250" y1="50" x2="360" y2="120" stroke="#2a2d35" stroke-width="2"/>
+      <line x1="140" y1="120" x2="80" y2="200" stroke="#2a2d35" stroke-width="2"/>
+      <line x1="140" y1="120" x2="200" y2="200" stroke="#2a2d35" stroke-width="2"/>
+      <line x1="360" y1="120" x2="300" y2="200" stroke="#2a2d35" stroke-width="2"/>
+      <line x1="360" y1="120" x2="420" y2="200" stroke="#2a2d35" stroke-width="2"/>
+      <!-- Root -->
+      <circle cx="250" cy="50" r="26" fill="#1e2127" stroke="#5b9cf6" stroke-width="1.5"/>
+      <text x="250" y="56" text-anchor="middle" font-family="IBM Plex Mono" font-size="15" font-weight="600" fill="#5b9cf6">4</text>
+      <text x="250" y="16" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#7a8090">root</text>
+      <!-- Level 1 -->
+      <circle cx="140" cy="120" r="24" fill="#1e2127" stroke="#38c9a0" stroke-width="1.5"/>
+      <text x="140" y="126" text-anchor="middle" font-family="IBM Plex Mono" font-size="14" font-weight="600" fill="#38c9a0">2</text>
+      <circle cx="360" cy="120" r="24" fill="#1e2127" stroke="#38c9a0" stroke-width="1.5"/>
+      <text x="360" y="126" text-anchor="middle" font-family="IBM Plex Mono" font-size="14" font-weight="600" fill="#38c9a0">6</text>
+      <!-- Level 2 leaves -->
+      <circle cx="80" cy="200" r="22" fill="#1e2127" stroke="#363b47" stroke-width="1.5"/>
+      <text x="80" y="206" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" fill="#e8eaf0">1</text>
+      <circle cx="200" cy="200" r="22" fill="#1e2127" stroke="#363b47" stroke-width="1.5"/>
+      <text x="200" y="206" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" fill="#e8eaf0">3</text>
+      <circle cx="300" cy="200" r="22" fill="#1e2127" stroke="#363b47" stroke-width="1.5"/>
+      <text x="300" y="206" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" fill="#e8eaf0">5</text>
+      <circle cx="420" cy="200" r="22" fill="#1e2127" stroke="#363b47" stroke-width="1.5"/>
+      <text x="420" y="206" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" fill="#e8eaf0">7</text>
+      <!-- Labels -->
+      <text x="90" y="245" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#7a8090">leaf</text>
+      <text x="200" y="245" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#7a8090">leaf</text>
+      <text x="300" y="245" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#7a8090">leaf</text>
+      <text x="420" y="245" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#7a8090">leaf</text>
+      <!-- Left/right labels -->
+      <text x="185" y="88" font-family="IBM Plex Mono" font-size="10" fill="#7a8090">L &lt; 4</text>
+      <text x="295" y="88" font-family="IBM Plex Mono" font-size="10" fill="#7a8090">R &gt; 4</text>
+    </svg>
+
+    <h3>How BST Search Works — why O(log n)?</h3>
+    <p>Searching for 5 in the tree above: start at root (4). Is 5 &gt; 4? Yes → go right to 6. Is 5 &lt; 6? Yes → go left to 5. Found! We only checked 3 nodes out of 7 total. Each comparison <strong>eliminates half the tree</strong>, giving O(log n) — identical to binary search on a sorted array.</p>
+
+    <div class="callout warn">
+      <div class="callout-label">Balanced vs. Degenerate BST</div>
+      The O(log n) guarantee only holds when the tree is <strong>balanced</strong> — roughly the same number of nodes on each side. If you insert sorted data [1, 2, 3, 4, 5] into a plain BST, you get a degenerate tree (essentially a linked list) with O(n) search. This is why <strong>self-balancing trees</strong> (AVL trees, Red-Black trees) exist — they automatically rebalance after every insert/delete to preserve O(log n).
+    </div>
+
+    <h3>Tree Traversals</h3>
+    <p>There are three standard ways to visit every node in a BST:</p>
+    <pre><code><span class="cm">// In-order (Left → Root → Right) → produces SORTED output: 1,2,3,4,5,6,7</span>
+<span class="cm">// Pre-order  (Root → Left → Right) → useful for copying a tree: 4,2,1,3,6,5,7</span>
+<span class="cm">// Post-order (Left → Right → Root) → useful for deletion: 1,3,2,5,7,6,4</span></code></pre>
+
+    <h3>Other Important Tree Types</h3>
+    <p><strong>Heap</strong> — a complete binary tree where every parent is greater (max-heap) or smaller (min-heap) than its children. Powers priority queues. O(log n) insert/delete.</p>
+    <p><strong>AVL Tree / Red-Black Tree</strong> — self-balancing BSTs. Used in Java's TreeMap, Linux kernel scheduling, database indexes.</p>
+    <p><strong>Trie (prefix tree)</strong> — each node represents a character. Used for autocomplete, spell-checkers, and IP routing. Lookups are O(m) where m is string length — independent of how many strings are stored.</p>
+    <p><strong>B-Tree</strong> — generalizes BSTs to have more than 2 children. Optimized for disk access. Used in virtually every relational database index (MySQL, PostgreSQL).</p>
+
+    <table class="bigo-table">
+      <thead><tr><th>Operation</th><th>BST (balanced)</th><th>BST (worst case)</th></tr></thead>
+      <tbody>
+        <tr><td>Search</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+        <tr><td>Insert</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+        <tr><td>Delete</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+        <tr><td>Min/Max</td><td><span class="badge badge-ologn">O(log n)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+        <tr><td>In-order traversal</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- HASH TABLES -->
+  <section id="hash-tables">
+    <div class="section-tag">Structure 06</div>
+    <h2>Hash Tables</h2>
+    <p>A hash table (also called a hash map or dictionary) maps <strong>keys to values</strong> with near-instant lookup. It achieves this using a <strong>hash function</strong> — a function that converts any key (string, number, object) into an integer index, which determines where in an array the value is stored.</p>
+
+    <pre><code><span class="cm">// Conceptually:</span>
+index = hash_function(key) % array_size
+
+<span class="cm">// Example: array_size = 7</span>
+hash("name")  = 3  → store at index 3
+hash("age")   = 1  → store at index 1
+hash("city")  = 5  → store at index 5
+
+<span class="cm">// Lookup is then O(1): compute hash → jump to index → done</span></code></pre>
+
+    <h3>Visual — hash table with 7 buckets</h3>
+    <div class="hash-table-vis">
+      <div class="hash-idx">0</div><div class="hash-val"><span class="hash-empty">— empty —</span></div>
+      <div class="hash-idx">1</div><div class="hash-val">"age" → 28</div>
+      <div class="hash-idx">2</div><div class="hash-val"><span class="hash-empty">— empty —</span></div>
+      <div class="hash-idx">3</div><div class="hash-val">"name" → "Alice"</div>
+      <div class="hash-idx">4</div><div class="hash-val"><span class="hash-empty">— empty —</span></div>
+      <div class="hash-idx">5</div><div class="hash-val">"city" → "Paris"</div>
+      <div class="hash-idx">6</div><div class="hash-val"><span class="hash-empty">— empty —</span></div>
+    </div>
+
+    <h3>Collisions — the critical concept</h3>
+    <p>A <strong>collision</strong> occurs when two different keys hash to the same index. This is unavoidable (pigeonhole principle: if you have more possible keys than buckets, collisions must occur). Managing collisions is the most important implementation detail of hash tables.</p>
+
+    <div class="callout danger">
+      <div class="callout-label">Never Skip This</div>
+      Any textbook or tutorial that explains hash tables without explaining collision resolution is giving you an incomplete picture. Collisions directly affect the worst-case performance — a poorly implemented hash table can degrade from O(1) to O(n).
+    </div>
+
+    <h3>Strategy 1 — Chaining</h3>
+    <p>Each bucket holds a <strong>linked list</strong> of all key-value pairs that hash to that index. On collision, simply append to the list.</p>
+
+    <div class="hash-table-vis" style="max-width:600px">
+      <div class="hash-idx">0</div><div class="hash-val"><span class="hash-empty">— empty —</span></div>
+      <div class="hash-idx">1</div><div class="hash-val">"age"→28 → "zip"→10001 → NULL</div>
+      <div class="hash-idx">2</div><div class="hash-val"><span class="hash-empty">— empty —</span></div>
+      <div class="hash-idx">3</div><div class="hash-val collision">"name"→"Alice" → "pet"→"cat" → NULL &nbsp;<span style="font-size:10px">(collision!)</span></div>
+    </div>
+
+    <p>Chaining is simple and handles high load well. Worst case: if every key hashes to the same bucket, lookup becomes O(n). In practice, with a good hash function and load factor below ~0.7, performance stays near O(1).</p>
+
+    <h3>Strategy 2 — Open Addressing</h3>
+    <p>All data stays in the main array — no linked lists. On collision, <strong>probe</strong> for the next available slot according to a rule:</p>
+    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text);">
+      <li><strong>Linear probing</strong> — check index+1, index+2, index+3, etc.</li>
+      <li><strong>Quadratic probing</strong> — check index+1, index+4, index+9, etc.</li>
+      <li><strong>Double hashing</strong> — use a second hash function to determine step size</li>
+    </ul>
+
+    <h3>Load Factor</h3>
+    <p>The <strong>load factor</strong> (λ) = number of entries / number of buckets. As λ rises, collisions increase and performance degrades. Most hash table implementations automatically <strong>rehash</strong> (create a larger array and re-insert everything) when λ exceeds ~0.7 for open addressing or ~1.0 for chaining.</p>
+
+    <table class="bigo-table">
+      <thead><tr><th>Operation</th><th>Average</th><th>Worst Case</th></tr></thead>
+      <tbody>
+        <tr><td>Lookup / Get</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+        <tr><td>Insert</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+        <tr><td>Delete</td><td><span class="badge badge-o1">O(1)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+        <tr><td>Space</td><td><span class="badge badge-on">O(n)</span></td><td><span class="badge badge-on">O(n)</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout key">
+      <div class="callout-label">Use Hash Tables When</div>
+      You need O(1) average-case lookups by a key. Counting frequencies (word counts, character counts). Caching (memoization). Implementing sets. Detecting duplicates. Hash tables power Python dicts, JavaScript objects, Java HashMaps — they're everywhere.
+    </div>
+  </section>
+
+  <!-- GRAPHS -->
+  <section id="graphs">
+    <div class="section-tag">Structure 07</div>
+    <h2>Graphs</h2>
+    <p>A graph is a collection of <strong>vertices (nodes)</strong> connected by <strong>edges</strong>. Trees are a special case of graphs (a connected, acyclic graph). Graphs are arguably the most powerful and widely applicable data structure — social networks, GPS maps, the internet, and dependency resolvers are all graphs.</p>
+
+    <h3>Key Terminology</h3>
+    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text); line-height: 2;">
+      <li><strong>Directed graph (digraph)</strong> — edges have direction (A→B doesn't mean B→A). Example: Twitter follows.</li>
+      <li><strong>Undirected graph</strong> — edges are bidirectional. Example: Facebook friendships.</li>
+      <li><strong>Weighted graph</strong> — edges have a numeric weight/cost. Example: road distances.</li>
+      <li><strong>Degree</strong> — number of edges connected to a vertex.</li>
+      <li><strong>Path</strong> — a sequence of vertices connected by edges.</li>
+      <li><strong>Cycle</strong> — a path that starts and ends at the same vertex.</li>
+      <li><strong>Connected graph</strong> — every vertex is reachable from every other vertex.</li>
+    </ul>
+
+    <h3>Visual — Weighted Undirected Graph</h3>
+
+    <svg viewBox="0 0 500 280" class="graph-svg" width="100%" style="max-width:500px;margin:1rem 0;">
+      <!-- Edges -->
+      <line x1="100" y1="80"  x2="250" y2="60"  stroke="#2a2d35" stroke-width="1.5"/>
+      <line x1="100" y1="80"  x2="80"  y2="210" stroke="#2a2d35" stroke-width="1.5"/>
+      <line x1="100" y1="80"  x2="250" y2="180" stroke="#2a2d35" stroke-width="1.5"/>
+      <line x1="250" y1="60"  x2="400" y2="80"  stroke="#2a2d35" stroke-width="1.5"/>
+      <line x1="250" y1="60"  x2="250" y2="180" stroke="#2a2d35" stroke-width="1.5"/>
+      <line x1="400" y1="80"  x2="420" y2="210" stroke="#2a2d35" stroke-width="1.5"/>
+      <line x1="250" y1="180" x2="420" y2="210" stroke="#2a2d35" stroke-width="1.5"/>
+      <line x1="80"  y1="210" x2="250" y2="180" stroke="#2a2d35" stroke-width="1.5"/>
+      <!-- Edge weights -->
+      <text x="168" y="55" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">4</text>
+      <text x="83"  y="152" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">2</text>
+      <text x="162" y="145" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">7</text>
+      <text x="325" y="55" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">3</text>
+      <text x="256" y="125" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">5</text>
+      <text x="415" y="152" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">6</text>
+      <text x="338" y="208" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">8</text>
+      <text x="165" y="208" font-family="IBM Plex Mono" font-size="11" fill="#7a8090" text-anchor="middle">3</text>
+      <!-- Vertices -->
+      <circle cx="100" cy="80"  r="22" fill="#16181c" stroke="#a78bf6" stroke-width="1.5"/>
+      <text x="100" y="86" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#a78bf6">A</text>
+      <circle cx="250" cy="60"  r="22" fill="#16181c" stroke="#a78bf6" stroke-width="1.5"/>
+      <text x="250" y="66" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#a78bf6">B</text>
+      <circle cx="400" cy="80"  r="22" fill="#16181c" stroke="#a78bf6" stroke-width="1.5"/>
+      <text x="400" y="86" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#a78bf6">C</text>
+      <circle cx="80"  cy="210" r="22" fill="#16181c" stroke="#38c9a0" stroke-width="1.5"/>
+      <text x="80"  y="216" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#38c9a0">D</text>
+      <circle cx="250" cy="180" r="22" fill="#16181c" stroke="#38c9a0" stroke-width="1.5"/>
+      <text x="250" y="186" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#38c9a0">E</text>
+      <circle cx="420" cy="210" r="22" fill="#16181c" stroke="#38c9a0" stroke-width="1.5"/>
+      <text x="420" y="216" text-anchor="middle" font-family="IBM Plex Mono" font-size="13" font-weight="600" fill="#38c9a0">F</text>
+    </svg>
+
+    <h3>Graph Representations in Code</h3>
+    <p>There are two main ways to store a graph in memory:</p>
+
+    <p><strong>Adjacency List</strong> — each vertex stores a list of its neighbors. Space efficient for sparse graphs (few edges). O(V+E) space.</p>
+    <pre><code><span class="cm">// Adjacency list for the graph above</span>
+graph = {
+  <span class="str">"A"</span>: [(<span class="str">"B"</span>, <span class="num">4</span>), (<span class="str">"D"</span>, <span class="num">2</span>), (<span class="str">"E"</span>, <span class="num">7</span>)],
+  <span class="str">"B"</span>: [(<span class="str">"A"</span>, <span class="num">4</span>), (<span class="str">"C"</span>, <span class="num">3</span>), (<span class="str">"E"</span>, <span class="num">5</span>)],
+  <span class="str">"C"</span>: [(<span class="str">"B"</span>, <span class="num">3</span>), (<span class="str">"F"</span>, <span class="num">6</span>)],
+  <span class="str">"D"</span>: [(<span class="str">"A"</span>, <span class="num">2</span>), (<span class="str">"E"</span>, <span class="num">3</span>)],
+  <span class="str">"E"</span>: [(<span class="str">"A"</span>, <span class="num">7</span>), (<span class="str">"B"</span>, <span class="num">5</span>), (<span class="str">"D"</span>, <span class="num">3</span>), (<span class="str">"F"</span>, <span class="num">8</span>)],
+  <span class="str">"F"</span>: [(<span class="str">"C"</span>, <span class="num">6</span>), (<span class="str">"E"</span>, <span class="num">8</span>)]
+}</code></pre>
+
+    <p><strong>Adjacency Matrix</strong> — a V×V grid where matrix[i][j] = weight of edge from i to j (or 0/infinity if no edge). O(V²) space. Fast to check if two nodes are connected: O(1). Bad for sparse graphs.</p>
+
+    <h3>Graph Traversal Algorithms</h3>
+    <p><strong>BFS (Breadth-First Search)</strong> — uses a queue. Explores all neighbors at the current depth before going deeper. Finds the shortest path in unweighted graphs. O(V+E).</p>
+    <p><strong>DFS (Depth-First Search)</strong> — uses a stack (or recursion). Explores as far as possible down one path before backtracking. Used for cycle detection, topological sorting, maze solving. O(V+E).</p>
+    <p><strong>Dijkstra's Algorithm</strong> — finds the shortest path in a weighted graph. Uses a priority queue. O((V+E) log V) with a binary heap.</p>
+
+    <div class="callout key">
+      <div class="callout-label">Real-World Uses of Graphs</div>
+      GPS navigation (shortest path). Social networks (connections, mutual friends). Web crawlers (the entire internet is a directed graph). Dependency resolution (npm, pip). Compilers (detecting circular imports). Recommendation engines. Flight route optimization.
+    </div>
+  </section>
+
+  <!-- COMPLEXITY TABLE -->
+  <section id="complexity">
+    <div class="section-tag">Reference</div>
+    <h2>Complexity Comparison Table</h2>
+    <p>This is the table you need to internalize. Note that O(1)* means amortized, and hash table averages assume a good hash function and low load factor.</p>
+
+    <table class="bigo-table" style="font-size:12.5px">
+      <thead>
+        <tr>
+          <th style="min-width:140px">Structure</th>
+          <th>Access</th>
+          <th>Search</th>
+          <th>Insert</th>
+          <th>Delete</th>
+          <th>Space</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Array</td>
+          <td><span class="badge badge-o1">O(1)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>Dynamic Array</td>
+          <td><span class="badge badge-o1">O(1)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-o1">O(1)*</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>Singly Linked List</td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-o1">O(1)*</span></td>
+          <td><span class="badge badge-o1">O(1)*</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>Doubly Linked List</td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-o1">O(1)*</span></td>
+          <td><span class="badge badge-o1">O(1)*</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>Stack</td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-o1">O(1)</span></td>
+          <td><span class="badge badge-o1">O(1)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>Queue</td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+          <td><span class="badge badge-o1">O(1)</span></td>
+          <td><span class="badge badge-o1">O(1)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>BST (balanced)</td>
+          <td><span class="badge badge-ologn">O(log n)</span></td>
+          <td><span class="badge badge-ologn">O(log n)</span></td>
+          <td><span class="badge badge-ologn">O(log n)</span></td>
+          <td><span class="badge badge-ologn">O(log n)</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>Hash Table</td>
+          <td><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-o1">O(1) avg</span></td>
+          <td><span class="badge badge-o1">O(1) avg</span></td>
+          <td><span class="badge badge-o1">O(1) avg</span></td>
+          <td><span class="badge badge-on">O(n)</span></td>
+        </tr>
+        <tr>
+          <td>Graph (adj. list)</td>
+          <td><span class="badge badge-na">N/A</span></td>
+          <td><span class="badge badge-on">O(V+E)</span></td>
+          <td><span class="badge badge-o1">O(1)</span></td>
+          <td><span class="badge badge-on">O(E)</span></td>
+          <td><span class="badge badge-on">O(V+E)</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin-top:0.5rem">*O(1) at head/tail only or amortized. V = vertices, E = edges.</p>
+  </section>
+
+  <!-- DECISION GUIDE -->
+  <section id="decision">
+    <div class="section-tag">Reference</div>
+    <h2>Decision Guide</h2>
+    <p>Choosing the right data structure is a practiced skill. Use these rules of thumb — then always verify with concrete complexity analysis for your specific access patterns.</p>
+
+    <div class="decision-grid">
+      <div class="decision-card">
+        <div class="dc-badge">→ Use an Array</div>
+        <div class="dc-title" style="margin-top:0.5rem">Fast access by position</div>
+        <div class="dc-when">You need O(1) lookup by index. Data is fixed-size or mostly appended. You're iterating sequentially (great cache locality).</div>
+      </div>
+      <div class="decision-card">
+        <div class="dc-badge">→ Use a Linked List</div>
+        <div class="dc-title" style="margin-top:0.5rem">Frequent insert/delete at ends</div>
+        <div class="dc-when">You insert and delete constantly at head/tail. Size is highly dynamic. You don't need random access. Building a queue or deque.</div>
+      </div>
+      <div class="decision-card">
+        <div class="dc-badge">→ Use a Stack</div>
+        <div class="dc-title" style="margin-top:0.5rem">LIFO ordering needed</div>
+        <div class="dc-when">Function call management, undo operations, DFS traversal, balanced bracket checking, expression evaluation.</div>
+      </div>
+      <div class="decision-card">
+        <div class="dc-badge">→ Use a Queue</div>
+        <div class="dc-title" style="margin-top:0.5rem">FIFO ordering needed</div>
+        <div class="dc-when">Task scheduling, BFS traversal, message buffers, rate limiting, event processing in order of arrival.</div>
+      </div>
+      <div class="decision-card">
+        <div class="dc-badge">→ Use a BST / Sorted Tree</div>
+        <div class="dc-title" style="margin-top:0.5rem">Sorted data + fast search</div>
+        <div class="dc-when">You need data kept in sorted order. You need O(log n) insert, delete, and range queries. Database indexes. Use self-balancing variants (AVL, Red-Black) in production.</div>
+      </div>
+      <div class="decision-card">
+        <div class="dc-badge">→ Use a Hash Table</div>
+        <div class="dc-title" style="margin-top:0.5rem">O(1) key-based lookup</div>
+        <div class="dc-when">Lookup by a unique key (username, ID). Frequency counting. Caching results. Deduplication. When order doesn't matter and you need raw speed.</div>
+      </div>
+      <div class="decision-card">
+        <div class="dc-badge">→ Use a Graph</div>
+        <div class="dc-title" style="margin-top:0.5rem">Relationships between entities</div>
+        <div class="dc-when">Entities have complex many-to-many relationships. You need pathfinding, reachability, or cycle detection. Social networks, routing, dependency graphs.</div>
+      </div>
+      <div class="decision-card">
+        <div class="dc-badge">→ Use a Heap</div>
+        <div class="dc-title" style="margin-top:0.5rem">Repeated min/max access</div>
+        <div class="dc-when">You always need the smallest or largest element. Priority queues, scheduling, Dijkstra's algorithm, top-K problems, median maintenance.</div>
+      </div>
+    </div>
+
+    <div class="callout info" style="margin-top:1.5rem">
+      <div class="callout-label">The Final Word</div>
+      No data structure is universally best. The art of software engineering is knowing their trade-offs so deeply that you can look at a problem and immediately see its shape — "this is a priority queue problem", "this screams hash table", "this graph is begging for Dijkstra". That instinct comes from studying and using each structure until the Big O numbers feel like muscle memory.
+    </div>
+
+    <hr style="margin-top:3rem"/>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:1.5rem">
+      Data Structures Master Reference &nbsp;·&nbsp; Study until the trade-offs are instinct
+    </p>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
