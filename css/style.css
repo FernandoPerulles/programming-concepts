@@ -1,0 +1,50 @@
+:root {
+    --bg-dark: #0d1117;
+    --card-bg: #161b22;
+    --accent-orange: #e3b341; /* El color de tu captura */
+    --accent-green: #3fb950;
+    --text-main: #c9d1d9;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Segoe UI', sans-serif;
+    padding: 2rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid #30363d;
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.card:hover { border-color: var(--accent-orange); }
+
+.phase-tag { color: var(--accent-orange); font-weight: bold; font-size: 0.8rem; }
+
+.progress-bar {
+    background: #30363d;
+    height: 8px;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+.fill { background: var(--accent-green); height: 100%; border-radius: 4px; }
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    text-decoration: none;
+    border-radius: 4px;
+}
