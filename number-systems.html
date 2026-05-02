@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Number Systems — Deep Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0b0c0f;
+    --surface: #13151a;
+    --surface2: #1a1d24;
+    --surface3: #21242d;
+    --border: #272b35;
+    --border2: #333845;
+    --text: #e2e4ec;
+    --muted: #6e7585;
+    --faint: #323745;
+    --blue: #5b9cf6;
+    --teal: #38c9a0;
+    --amber: #f5a623;
+    --coral: #f07060;
+    --purple: #a78bf6;
+    --green: #6bcb77;
+    --pink: #f06090;
+    --code-bg: #0d0f14;
+    --r: 8px;
+    --rl: 12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'DM Sans',sans-serif;
+    font-size:15px;
+    line-height:1.75;
+    display:flex;
+    min-height:100vh;
+  }
+
+  /* ── NAV ── */
+  nav{
+    width:230px;min-width:230px;
+    background:var(--surface);
+    border-right:1px solid var(--border);
+    padding:2rem 0;
+    position:sticky;top:0;height:100vh;
+    overflow-y:auto;flex-shrink:0;
+  }
+  .nav-logo{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;color:var(--amber);
+    letter-spacing:.14em;text-transform:uppercase;
+    padding:0 1.4rem 1.4rem;
+    border-bottom:1px solid var(--border);margin-bottom:.8rem;
+  }
+  nav a{
+    display:block;padding:.4rem 1.4rem;
+    color:var(--muted);text-decoration:none;
+    font-size:13px;border-left:2px solid transparent;
+    transition:all .15s;
+  }
+  nav a:hover{color:var(--text);background:var(--surface2);}
+  nav a.active{color:var(--amber);border-left-color:var(--amber);background:rgba(245,166,35,.06);}
+  .nav-sep{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);padding:1.1rem 1.4rem .35rem;
+  }
+
+  /* ── MAIN ── */
+  main{flex:1;max-width:860px;padding:3rem 3rem 6rem;overflow-x:hidden;}
+  section{margin-bottom:5rem;}
+  .stag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;}
+  h1{font-family:'Fraunces',serif;font-size:2.9rem;font-weight:600;line-height:1.1;color:var(--text);margin-bottom:1rem;}
+  h2{font-family:'Fraunces',serif;font-size:1.95rem;font-weight:300;color:var(--text);margin-bottom:1.2rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);}
+  h3{font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;color:var(--text);margin:1.7rem 0 .55rem;letter-spacing:.02em;}
+  p{margin-bottom:.85rem;line-height:1.82;}
+  p:last-child{margin-bottom:0;}
+  strong{font-weight:500;color:#fff;}
+  code{font-family:'IBM Plex Mono',monospace;font-size:.84em;background:var(--code-bg);border:1px solid var(--border);padding:1px 6px;border-radius:4px;color:var(--teal);}
+  pre{background:var(--code-bg);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem 1.4rem;overflow-x:auto;margin:1rem 0;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.75;}
+  pre .k{color:var(--purple);}
+  pre .c{color:var(--muted);font-style:italic;}
+  pre .n{color:var(--amber);}
+  pre .s{color:var(--teal);}
+  pre .o{color:var(--coral);}
+  ul,ol{margin:.4rem 0 .9rem 1.4rem;color:var(--text);}
+  li{margin-bottom:.3rem;line-height:1.8;}
+  hr{border:none;border-top:1px solid var(--border);margin:2rem 0;}
+
+  /* ── CALLOUTS ── */
+  .box{border-left:3px solid;padding:.9rem 1.15rem;border-radius:0 var(--r) var(--r) 0;margin:1.2rem 0;font-size:14px;line-height:1.72;}
+  .box-lbl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:.35rem;}
+  .info{border-color:var(--blue);background:rgba(91,156,246,.07);}  .info .box-lbl{color:var(--blue);}
+  .warn{border-color:var(--amber);background:rgba(245,166,35,.07);} .warn .box-lbl{color:var(--amber);}
+  .key {border-color:var(--teal);background:rgba(56,201,160,.07);}  .key  .box-lbl{color:var(--teal);}
+  .danger{border-color:var(--coral);background:rgba(240,112,96,.07);} .danger .box-lbl{color:var(--coral);}
+
+  /* ── TABLES ── */
+  .t{width:100%;border-collapse:collapse;font-size:13.5px;margin:1.1rem 0;}
+  .t th{background:var(--surface2);color:var(--muted);padding:9px 13px;text-align:left;border-bottom:1px solid var(--border);font-size:11.5px;font-weight:500;letter-spacing:.04em;white-space:nowrap;}
+  .t td{padding:9px 13px;border-bottom:1px solid var(--border);vertical-align:middle;}
+  .t tr:last-child td{border-bottom:none;}
+  .t tr:hover td{background:var(--surface2);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ── POSITIONAL NOTATION VISUAL ── */
+  .pos-grid{display:flex;gap:3px;margin:1rem 0;flex-wrap:wrap;}
+  .pos-col{display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .pos-power{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);padding:4px 0;}
+  .pos-val{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);padding:2px 0;}
+  .pos-cell{
+    width:54px;height:48px;
+    background:var(--surface2);border:1px solid var(--border2);
+    border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;
+    color:var(--text);
+  }
+  .pos-cell.hl{border-color:var(--amber);color:var(--amber);background:rgba(245,166,35,.08);}
+  .pos-cell.hl2{border-color:var(--teal);color:var(--teal);background:rgba(56,201,160,.08);}
+  .pos-cell.hl3{border-color:var(--blue);color:var(--blue);background:rgba(91,156,246,.08);}
+  .pos-result{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);margin-top:.6rem;line-height:1.9;}
+  .pos-result span{color:var(--text);}
+
+  /* ── BIT STRIP ── */
+  .bit-strip{display:flex;gap:2px;margin:.8rem 0;flex-wrap:wrap;}
+  .bit{
+    width:38px;height:38px;
+    border-radius:5px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;
+    border:1px solid;
+    cursor:default;
+    transition:all .15s;
+    flex-direction:column;
+  }
+  .bit.on{background:rgba(56,201,160,.12);border-color:var(--teal);color:var(--teal);}
+  .bit.off{background:var(--surface2);border-color:var(--border2);color:var(--muted);}
+  .bit-pos{font-size:9px;font-weight:400;margin-top:1px;}
+  .bit-strip-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:4px;}
+
+  /* ── HEX COLOR SWATCH ── */
+  .hex-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin:1rem 0;}
+  .swatch{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);}
+  .swatch-color{height:44px;}
+  .swatch-info{padding:6px 8px;background:var(--surface2);}
+  .swatch-hex{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text);}
+  .swatch-rgb{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;}
+
+  /* ── STEP TABLE ── */
+  .step-t{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:12.5px;margin:1rem 0;}
+  .step-t th{background:var(--surface2);color:var(--muted);padding:8px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;}
+  .step-t td{padding:7px 11px;border-bottom:1px solid var(--border);}
+  .step-t tr:last-child td{border-bottom:none;}
+  .tc{color:var(--teal);}  .ac{color:var(--amber);}
+  .bc{color:var(--blue);}  .pc{color:var(--purple);}
+  .rc{color:var(--coral);} .mc{color:var(--muted);}
+
+  /* ── INTERACTIVE CONVERTER ── */
+  #converter{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--rl);
+    padding:1.5rem;
+    margin:1.5rem 0;
+  }
+  .conv-title{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;}
+  .conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .conv-field label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:.4rem;}
+  .conv-field input{
+    width:100%;background:var(--code-bg);
+    border:1px solid var(--border2);border-radius:var(--r);
+    padding:.6rem .9rem;
+    font-family:'IBM Plex Mono',monospace;font-size:14px;
+    color:var(--text);outline:none;
+    transition:border-color .15s;
+  }
+  .conv-field input:focus{border-color:var(--amber);}
+  .conv-field input.error{border-color:var(--coral);color:var(--coral);}
+  .conv-base-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border-radius:3px;margin-left:6px;}
+  .tag-dec{background:rgba(245,166,35,.15);color:var(--amber);}
+  .tag-bin{background:rgba(56,201,160,.15);color:var(--teal);}
+  .tag-hex{background:rgba(91,156,246,.15);color:var(--blue);}
+  .tag-oct{background:rgba(167,139,246,.15);color:var(--purple);}
+
+  /* bit breakdown inside converter */
+  #bit-breakdown{margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--border);}
+  #bit-breakdown .bd-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem;}
+  .bd-strip{display:flex;gap:2px;flex-wrap:wrap;}
+  .bd-bit{
+    display:flex;flex-direction:column;align-items:center;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .bd-bit-val{width:34px;height:34px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;border:1px solid;}
+  .bd-bit-val.on{background:rgba(56,201,160,.12);border-color:var(--teal);color:var(--teal);}
+  .bd-bit-val.off{background:var(--surface2);border-color:var(--border2);color:var(--faint);}
+  .bd-bit-pos{font-size:9px;color:var(--muted);margin-top:2px;}
+  .bd-bit-pw{font-size:9px;color:var(--faint);margin-top:1px;}
+
+  /* twos complement visual */
+  .tc-grid{display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;font-family:'IBM Plex Mono',monospace;font-size:13px;margin:1rem 0;align-items:center;}
+  .tc-label{color:var(--muted);font-size:11px;}
+  .tc-val{color:var(--text);}
+  .tc-val .on{color:var(--coral);}
+  .tc-val .off{color:var(--muted);}
+
+  /* bitwise op rows */
+  .bw-op{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.2rem;margin:.7rem 0;}
+  .bw-name{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--purple);letter-spacing:.05em;margin-bottom:.4rem;}
+  .bw-calc{font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:2;}
+  .bw-calc .row-label{color:var(--muted);display:inline-block;width:30px;}
+  .bw-calc .bits{letter-spacing:.12em;}
+  .bw-calc .res{color:var(--teal);}
+  .bw-calc .sep{border-top:1px solid var(--border2);display:block;margin:2px 0;}
+
+  @media(max-width:880px){nav{display:none;}main{padding:2rem 1.2rem 4rem;}.conv-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">// Phase 0 — Foundations</div>
+  <div class="nav-sep">Concepts</div>
+  <a href="#intro" class="active">Why Number Systems</a>
+  <a href="#positional">Positional Notation</a>
+  <div class="nav-sep">The Systems</div>
+  <a href="#decimal">Base 10 — Decimal</a>
+  <a href="#binary">Base 2 — Binary</a>
+  <a href="#hexadecimal">Base 16 — Hex</a>
+  <a href="#octal">Base 8 — Octal</a>
+  <div class="nav-sep">Conversions</div>
+  <a href="#dec-to-bin">Decimal → Binary</a>
+  <a href="#bin-to-dec">Binary → Decimal</a>
+  <a href="#bin-hex">Binary ↔ Hex</a>
+  <a href="#converter">Live Converter</a>
+  <div class="nav-sep">Deeper</div>
+  <a href="#bits-bytes">Bits &amp; Bytes</a>
+  <a href="#twos">Two's Complement</a>
+  <a href="#bitwise">Bitwise Operators</a>
+  <a href="#why-matters">Why It Matters</a>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════ INTRO -->
+<section id="intro">
+  <div class="stag">Phase 0 — How Computers Work</div>
+  <h1>Number Systems</h1>
+  <p>A number system is a <strong>set of symbols and rules for representing quantities</strong>. You already use one every day without thinking about it — decimal. But computers cannot use decimal internally, and understanding why forces you to understand something profound about the machine you program.</p>
+  <p>This is not abstract mathematics. Every variable you declare, every character you type, every color on screen, every network address, every instruction your CPU executes — all of it is, at the lowest level, a number expressed in binary. Understanding number systems means you stop treating the computer as a magic box and start seeing its actual language.</p>
+
+  <div class="box key">
+    <div class="box-lbl">The Core Insight</div>
+    A number is an abstract quantity. How you <em>write</em> that quantity is just notation — a choice. The quantity "twelve" is the same whether you write it as 12 (decimal), 1100 (binary), C (hexadecimal), or XII (Roman). Same reality, different symbols. Number systems are about the notation, not the underlying quantity.
+  </div>
+
+  <h3>The four systems you need to know</h3>
+  <table class="t">
+    <thead><tr><th>System</th><th>Base</th><th>Digits used</th><th>Where you'll see it</th></tr></thead>
+    <tbody>
+      <tr><td>Decimal</td><td class="mono">10</td><td class="mono">0–9</td><td>Human math, user-facing numbers</td></tr>
+      <tr><td>Binary</td><td class="mono">2</td><td class="mono">0, 1</td><td>CPU, memory, all hardware logic</td></tr>
+      <tr><td>Hexadecimal</td><td class="mono">16</td><td class="mono">0–9, A–F</td><td>Memory addresses, colors, encoding, debugging</td></tr>
+      <tr><td>Octal</td><td class="mono">8</td><td class="mono">0–7</td><td>Unix file permissions (chmod 755)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ POSITIONAL -->
+<section id="positional">
+  <div class="stag">Foundation</div>
+  <h2>Positional Notation</h2>
+  <p>All four systems we'll study are <strong>positional number systems</strong>. This means the value of a digit depends not just on the digit itself, but on its <strong>position</strong> in the number. The position determines what power of the base that digit is multiplied by.</p>
+  <p>This sounds obvious because you grew up with it — but it's worth making explicit, because the same rule governs all bases.</p>
+
+  <h3>The universal formula</h3>
+  <p>For any number written in base <em>B</em>, with digits d<sub>n</sub>d<sub>n-1</sub>...d<sub>1</sub>d<sub>0</sub>:</p>
+  <pre>Value = d<sub>n</sub> × B<sup>n</sup>  +  d<sub>n-1</sub> × B<sup>n-1</sup>  + ... +  d<sub>1</sub> × B<sup>1</sup>  +  d<sub>0</sub> × B<sup>0</sup>
+
+<span class="c">// Positions count from RIGHT, starting at 0</span>
+<span class="c">// B⁰ is always 1 (anything to the power of 0 = 1)</span>
+<span class="c">// Each position to the left multiplies by B again</span></pre>
+
+  <h3>Visual — Decimal 3,472 broken down</h3>
+  <div class="pos-grid">
+    <div class="pos-col">
+      <div class="pos-power">10³ = 1000</div>
+      <div class="pos-cell hl">3</div>
+      <div class="pos-val">3000</div>
+    </div>
+    <div class="pos-col">
+      <div class="pos-power">10² = 100</div>
+      <div class="pos-cell hl2">4</div>
+      <div class="pos-val">400</div>
+    </div>
+    <div class="pos-col">
+      <div class="pos-power">10¹ = 10</div>
+      <div class="pos-cell hl3">7</div>
+      <div class="pos-val">70</div>
+    </div>
+    <div class="pos-col">
+      <div class="pos-power">10⁰ = 1</div>
+      <div class="pos-cell" style="border-color:var(--border2);color:var(--muted)">2</div>
+      <div class="pos-val">2</div>
+    </div>
+  </div>
+  <div class="pos-result">
+    3×1000 + 4×100 + 7×10 + 2×1 = <span>3,472</span><br>
+    <span style="color:var(--muted);font-size:12px;">Every number system works exactly this way — only the base changes.</span>
+  </div>
+
+  <div class="box warn">
+    <div class="box-lbl">Why This Matters</div>
+    Once you truly understand positional notation with one base, you understand it for all bases. Binary is just base 2. Hexadecimal is just base 16. The mechanics are identical — the only thing that changes is how many digits the system has.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ DECIMAL -->
+<section id="decimal">
+  <div class="stag">System 01</div>
+  <h2>Base 10 — Decimal</h2>
+  <p>Decimal is the system humans evolved to use, almost certainly because we have 10 fingers. It uses 10 symbols: <strong>0, 1, 2, 3, 4, 5, 6, 7, 8, 9</strong>. When you exhaust all symbols, you carry over to the next position and start again.</p>
+  <p>The word "decimal" comes from the Latin <em>decimus</em> — tenth. We write decimal numbers with no special prefix. When we need to be explicit about the base, we write it as a subscript: 42<sub>10</sub>.</p>
+
+  <h3>Counting in decimal</h3>
+  <pre>0, 1, 2, 3, 4, 5, 6, 7, 8, 9, <span class="c">← all single digits used up</span>
+10, 11, 12 ... 19, 20 ...      <span class="c">← carry 1 to tens position</span>
+98, 99,                        <span class="c">← both positions exhausted</span>
+100, 101 ...                   <span class="c">← carry 1 to hundreds position</span></pre>
+
+  <p>This is so obvious it seems pointless to spell out — but watch what happens when we apply the exact same carry logic to base 2. Everything that seems "weird" about binary is just this same rule applied to a system with only 2 digits.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ BINARY -->
+<section id="binary">
+  <div class="stag">System 02</div>
+  <h2>Base 2 — Binary</h2>
+  <p>Binary uses exactly <strong>two symbols: 0 and 1</strong>. These map directly to the two physical states that electronics can reliably represent: <strong>off/on, low voltage/high voltage, no charge/charge</strong>. This is why computers use binary — not because it's mathematically elegant, but because it's physically robust. A transistor is either conducting or not. There's no reliable "halfway" state.</p>
+  <p>Binary numbers are written with the prefix <code>0b</code> in most programming languages (e.g., <code>0b1010</code>), or with subscript 2 in mathematics (1010<sub>2</sub>).</p>
+
+  <h3>Counting in binary — the same carry logic</h3>
+  <table class="t" style="max-width:380px">
+    <thead><tr><th>Decimal</th><th>Binary</th><th>What happened</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">0</td><td class="mono tc">0</td><td style="font-size:12.5px;color:var(--muted)">start</td></tr>
+      <tr><td class="mono">1</td><td class="mono tc">1</td><td style="font-size:12.5px;color:var(--muted)">last single digit</td></tr>
+      <tr><td class="mono">2</td><td class="mono ac">10</td><td style="font-size:12.5px;color:var(--muted)">digits exhausted → carry</td></tr>
+      <tr><td class="mono">3</td><td class="mono tc">11</td><td style="font-size:12.5px;color:var(--muted)">fill both positions</td></tr>
+      <tr><td class="mono">4</td><td class="mono ac">100</td><td style="font-size:12.5px;color:var(--muted)">exhausted again → carry</td></tr>
+      <tr><td class="mono">5</td><td class="mono tc">101</td><td style="font-size:12.5px;color:var(--muted)"></td></tr>
+      <tr><td class="mono">6</td><td class="mono tc">110</td><td style="font-size:12.5px;color:var(--muted)"></td></tr>
+      <tr><td class="mono">7</td><td class="mono tc">111</td><td style="font-size:12.5px;color:var(--muted)">all three positions full</td></tr>
+      <tr><td class="mono">8</td><td class="mono ac">1000</td><td style="font-size:12.5px;color:var(--muted)">need 4th position</td></tr>
+      <tr><td class="mono">15</td><td class="mono tc">1111</td><td style="font-size:12.5px;color:var(--muted)">max for 4 bits</td></tr>
+      <tr><td class="mono">16</td><td class="mono ac">10000</td><td style="font-size:12.5px;color:var(--muted)">need 5th position</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box info">
+    <div class="box-lbl">The Powers of 2 — Memorize These</div>
+    2⁰=1 &nbsp; 2¹=2 &nbsp; 2²=4 &nbsp; 2³=8 &nbsp; 2⁴=16 &nbsp; 2⁵=32 &nbsp; 2⁶=64 &nbsp; 2⁷=128 &nbsp; 2⁸=256 &nbsp; 2⁹=512 &nbsp; 2¹⁰=1024<br>
+    <span style="color:var(--muted);font-size:12.5px;margin-top:.3rem;display:block">These are the building blocks of binary. You'll see them everywhere — array sizes, memory limits, port numbers, color channels.</span>
+  </div>
+
+  <h3>Visual — Binary 1 0 1 1 0 1 broken down</h3>
+  <div class="pos-grid">
+    <div class="pos-col"><div class="pos-power">2⁵=32</div><div class="pos-cell hl">1</div><div class="pos-val">32</div></div>
+    <div class="pos-col"><div class="pos-power">2⁴=16</div><div class="pos-cell" style="color:var(--muted)">0</div><div class="pos-val" style="color:var(--faint)">0</div></div>
+    <div class="pos-col"><div class="pos-power">2³=8</div><div class="pos-cell hl2">1</div><div class="pos-val">8</div></div>
+    <div class="pos-col"><div class="pos-power">2²=4</div><div class="pos-cell hl2">1</div><div class="pos-val">4</div></div>
+    <div class="pos-col"><div class="pos-power">2¹=2</div><div class="pos-cell" style="color:var(--muted)">0</div><div class="pos-val" style="color:var(--faint)">0</div></div>
+    <div class="pos-col"><div class="pos-power">2⁰=1</div><div class="pos-cell hl3">1</div><div class="pos-val">1</div></div>
+  </div>
+  <div class="pos-result">
+    1×32 + 0×16 + 1×8 + 1×4 + 0×2 + 1×1 = <span>45</span><br>
+    <span style="color:var(--muted);font-size:12px;">101101₂ = 45₁₀ — sum only the positions with a 1.</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ HEX -->
+<section id="hexadecimal">
+  <div class="stag">System 03</div>
+  <h2>Base 16 — Hexadecimal</h2>
+  <p>Hexadecimal uses 16 symbols: <strong>0–9 and A–F</strong> (where A=10, B=11, C=12, D=13, E=14, F=15). You need 16 symbols because each hex digit must represent a value from 0 to 15.</p>
+  <p>Hex exists as a <strong>practical shorthand for binary</strong>. One hex digit represents exactly 4 binary bits. Since 4 bits can represent 16 values (0–15), and hex has 16 symbols, the mapping is perfect. This makes hex a compact, human-readable representation of binary data.</p>
+  <p>In code, hex numbers are prefixed with <code>0x</code> — e.g., <code>0xFF</code>, <code>0x1A3F</code>.</p>
+
+  <h3>The hex digit table</h3>
+  <table class="t" style="max-width:500px">
+    <thead><tr><th>Decimal</th><th>Hex</th><th>Binary (4 bits)</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">0</td><td class="mono ac">0</td><td class="mono tc">0000</td></tr>
+      <tr><td class="mono">1</td><td class="mono ac">1</td><td class="mono tc">0001</td></tr>
+      <tr><td class="mono">2</td><td class="mono ac">2</td><td class="mono tc">0010</td></tr>
+      <tr><td class="mono">4</td><td class="mono ac">4</td><td class="mono tc">0100</td></tr>
+      <tr><td class="mono">8</td><td class="mono ac">8</td><td class="mono tc">1000</td></tr>
+      <tr><td class="mono">9</td><td class="mono ac">9</td><td class="mono tc">1001</td></tr>
+      <tr><td class="mono">10</td><td class="mono ac" style="color:var(--coral)">A</td><td class="mono tc">1010</td></tr>
+      <tr><td class="mono">11</td><td class="mono ac" style="color:var(--coral)">B</td><td class="mono tc">1011</td></tr>
+      <tr><td class="mono">12</td><td class="mono ac" style="color:var(--coral)">C</td><td class="mono tc">1100</td></tr>
+      <tr><td class="mono">13</td><td class="mono ac" style="color:var(--coral)">D</td><td class="mono tc">1101</td></tr>
+      <tr><td class="mono">14</td><td class="mono ac" style="color:var(--coral)">E</td><td class="mono tc">1110</td></tr>
+      <tr><td class="mono">15</td><td class="mono ac" style="color:var(--coral)">F</td><td class="mono tc">1111</td></tr>
+      <tr><td class="mono">255</td><td class="mono ac" style="color:var(--amber)">FF</td><td class="mono tc">1111 1111</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Hex in the real world — CSS Colors</h3>
+  <p>CSS colors like <code>#F08030</code> are three hex pairs: <strong>FF</strong> = Red channel, <strong>80</strong> = Green channel, <strong>30</strong> = Blue channel. Each pair is one byte (0–255). This is why understanding hex is not optional for web developers.</p>
+  <div class="hex-swatches">
+    <div class="swatch"><div class="swatch-color" style="background:#FF0000"></div><div class="swatch-info"><div class="swatch-hex">#FF0000</div><div class="swatch-rgb">R=255 G=0 B=0</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#00FF00"></div><div class="swatch-info"><div class="swatch-hex">#00FF00</div><div class="swatch-rgb">R=0 G=255 B=0</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#0000FF"></div><div class="swatch-info"><div class="swatch-hex">#0000FF</div><div class="swatch-rgb">R=0 G=0 B=255</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#F07060"></div><div class="swatch-info"><div class="swatch-hex">#F07060</div><div class="swatch-rgb">R=240 G=112 B=96</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#5b9cf6"></div><div class="swatch-info"><div class="swatch-hex">#5B9CF6</div><div class="swatch-rgb">R=91 G=156 B=246</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#38c9a0"></div><div class="swatch-info"><div class="swatch-hex">#38C9A0</div><div class="swatch-rgb">R=56 G=201 B=160</div></div></div>
+  </div>
+
+  <h3>Hex in memory addresses</h3>
+  <p>When a debugger shows you a memory address like <code>0x7FFF5FBFF8A0</code>, that's hexadecimal. Reading it in binary would require 48 digits. In hex, it's 12 — much more manageable while still mapping directly to the binary representation.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ OCTAL -->
+<section id="octal">
+  <div class="stag">System 04</div>
+  <h2>Base 8 — Octal</h2>
+  <p>Octal uses 8 symbols: <strong>0–7</strong>. Each octal digit represents exactly 3 binary bits (2³ = 8). In code, octal is prefixed with <code>0o</code> in Python, or just a leading <code>0</code> in older C (a common source of bugs).</p>
+  <p>You don't need to use octal frequently, but you <strong>must recognize it</strong> because it appears in one critical place: Unix/Linux file permissions.</p>
+
+  <pre><span class="c"># chmod 755 — this is octal</span>
+<span class="c"># 7 = 111 binary = rwx (read, write, execute)</span>
+<span class="c"># 5 = 101 binary = r-x (read, execute)</span>
+<span class="c"># 5 = 101 binary = r-x (read, execute)</span>
+
+<span class="c"># chmod 644</span>
+<span class="c"># 6 = 110 = rw-  (owner: read+write)</span>
+<span class="c"># 4 = 100 = r--  (group: read only)</span>
+<span class="c"># 4 = 100 = r--  (others: read only)</span></pre>
+
+  <div class="box info">
+    <div class="box-lbl">Practical Note</div>
+    You will type <code>chmod 755</code> or <code>chmod 644</code> hundreds of times in your career. Now you know why those specific numbers — they're octal, each digit encoding three permission bits (r, w, x) for owner, group, and world.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ DEC→BIN -->
+<section id="dec-to-bin">
+  <div class="stag">Conversions</div>
+  <h2>Decimal → Binary</h2>
+  <p>The standard algorithm is the <strong>repeated division by 2</strong> method. Divide the number by 2 repeatedly, recording the remainder each time. The binary result is the remainders read <em>bottom to top</em>.</p>
+
+  <h3>Step-by-step — Convert 45 to binary</h3>
+  <table class="step-t">
+    <thead><tr><th>Step</th><th>Division</th><th>Quotient</th><th>Remainder</th><th>Binary digit</th></tr></thead>
+    <tbody>
+      <tr><td class="mc">1</td><td class="ac">45 ÷ 2</td><td class="bc">22</td><td class="tc">1</td><td class="mc" style="font-size:12px">← least significant bit (rightmost)</td></tr>
+      <tr><td class="mc">2</td><td class="ac">22 ÷ 2</td><td class="bc">11</td><td class="mc">0</td><td></td></tr>
+      <tr><td class="mc">3</td><td class="ac">11 ÷ 2</td><td class="bc">5</td><td class="tc">1</td><td></td></tr>
+      <tr><td class="mc">4</td><td class="ac">5 ÷ 2</td><td class="bc">2</td><td class="tc">1</td><td></td></tr>
+      <tr><td class="mc">5</td><td class="ac">2 ÷ 2</td><td class="bc">1</td><td class="mc">0</td><td></td></tr>
+      <tr><td class="mc">6</td><td class="ac">1 ÷ 2</td><td class="bc">0</td><td class="tc">1</td><td class="mc" style="font-size:12px">← most significant bit (leftmost)</td></tr>
+    </tbody>
+  </table>
+  <div class="pos-result" style="margin-top:.5rem">
+    Read remainders bottom to top: <span>101101</span><br>
+    Verify: 32+0+8+4+0+1 = <span>45</span> ✓
+  </div>
+
+  <div class="box key">
+    <div class="box-lbl">Shortcut — Greedy Subtraction</div>
+    Alternatively, find the largest power of 2 that fits, put a 1 there, subtract it, repeat.<br>
+    45 → 32 fits? Yes → <strong>1</strong>____ → 45-32=13 → 16 fits? No → <strong>0</strong>___ → 8 fits? Yes → <strong>1</strong>__ → 13-8=5 → 4 fits? Yes → <strong>1</strong>_ → 5-4=1 → 2 fits? No → <strong>0</strong> → 1 fits? Yes → <strong>1</strong><br>
+    Result: <strong>101101</strong>. Same answer, different method. Use whichever clicks mentally.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ BIN→DEC -->
+<section id="bin-to-dec">
+  <div class="stag">Conversions</div>
+  <h2>Binary → Decimal</h2>
+  <p>This is the <strong>positional notation formula applied directly</strong>. Assign powers of 2 to each bit position (right to left, starting at 2⁰), then sum the values where the bit is 1.</p>
+
+  <h3>Step-by-step — Convert 11010110 to decimal</h3>
+  <div class="pos-grid">
+    <div class="pos-col"><div class="pos-power">2⁷=128</div><div class="pos-cell hl">1</div><div class="pos-val">128</div></div>
+    <div class="pos-col"><div class="pos-power">2⁶=64</div><div class="pos-cell hl">1</div><div class="pos-val">64</div></div>
+    <div class="pos-col"><div class="pos-power">2⁵=32</div><div class="pos-cell" style="color:var(--muted)">0</div><div class="pos-val" style="color:var(--faint)">0</div></div>
+    <div class="pos-col"><div class="pos-power">2⁴=16</div><div class="pos-cell hl2">1</div><div class="pos-val">16</div></div>
+    <div class="pos-col"><div class="pos-power">2³=8</div><div class="pos-cell" style="color:var(--muted)">0</div><div class="pos-val" style="color:var(--faint)">0</div></div>
+    <div class="pos-col"><div class="pos-power">2²=4</div><div class="pos-cell hl2">1</div><div class="pos-val">4</div></div>
+    <div class="pos-col"><div class="pos-power">2¹=2</div><div class="pos-cell hl2">1</div><div class="pos-val">2</div></div>
+    <div class="pos-col"><div class="pos-power">2⁰=1</div><div class="pos-cell" style="color:var(--muted)">0</div><div class="pos-val" style="color:var(--faint)">0</div></div>
+  </div>
+  <div class="pos-result">
+    128 + 64 + 0 + 16 + 0 + 4 + 2 + 0 = <span>214</span><br>
+    11010110₂ = 214₁₀
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ BIN↔HEX -->
+<section id="bin-hex">
+  <div class="stag">Conversions</div>
+  <h2>Binary ↔ Hex</h2>
+  <p>This is the most important conversion in practice, and it's also the <strong>easiest</strong> once you know why it works. Since 16 = 2⁴, exactly <strong>4 binary bits map to 1 hex digit</strong>. No arithmetic needed — just group and substitute.</p>
+
+  <h3>Binary → Hex: group into nibbles of 4</h3>
+  <pre><span class="c">// Convert 1101 0110 1111 0010 to hex</span>
+
+<span class="c">// Step 1: group from the RIGHT into groups of 4</span>
+1101  0110  1111  0010
+
+<span class="c">// Step 2: convert each group using the table</span>
+1101 = 13 = <span class="o">D</span>
+0110 = 6  = <span class="o">6</span>
+1111 = 15 = <span class="o">F</span>
+0010 = 2  = <span class="o">2</span>
+
+<span class="c">// Result:</span>
+1101011011110010₂ = <span class="o">0xD6F2</span>
+
+<span class="c">// 16 binary digits → 4 hex digits. Much more readable.</span></pre>
+
+  <h3>Hex → Binary: each digit expands to 4 bits</h3>
+  <pre><span class="c">// Convert 0x3A to binary</span>
+3 = <span class="o">0011</span>
+A = <span class="o">1010</span>
+
+<span class="c">// Concatenate:</span>
+0x3A = <span class="s">0011 1010</span> = 58 in decimal
+
+<span class="c">// Verify: 32+16+8+2 = 58 ✓</span></pre>
+
+  <div class="box key">
+    <div class="box-lbl">Why Hex Exists</div>
+    Humans can't read binary comfortably. A 64-bit memory address in binary is 64 characters of 0s and 1s. The exact same address in hex is 16 characters. They contain identical information — hex is purely a compressed human-readable form of binary. When you read memory dumps, CPU registers, network packets, or color codes, you're reading hex that represents binary.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ CONVERTER -->
+<section id="converter">
+  <div class="stag">Interactive Tool</div>
+  <h2>Live Converter</h2>
+  <p>Type any number in any base. All others update instantly. The bit breakdown shows the actual binary representation.</p>
+
+  <div id="converter">
+    <div class="conv-title">// Number Base Converter</div>
+    <div class="conv-grid">
+      <div class="conv-field">
+        <label>Decimal <span class="conv-base-tag tag-dec">base 10</span></label>
+        <input type="text" id="in-dec" placeholder="e.g. 255" autocomplete="off"/>
+      </div>
+      <div class="conv-field">
+        <label>Binary <span class="conv-base-tag tag-bin">base 2</span></label>
+        <input type="text" id="in-bin" placeholder="e.g. 11111111" autocomplete="off"/>
+      </div>
+      <div class="conv-field">
+        <label>Hexadecimal <span class="conv-base-tag tag-hex">base 16</span></label>
+        <input type="text" id="in-hex" placeholder="e.g. FF" autocomplete="off"/>
+      </div>
+      <div class="conv-field">
+        <label>Octal <span class="conv-base-tag tag-oct">base 8</span></label>
+        <input type="text" id="in-oct" placeholder="e.g. 377" autocomplete="off"/>
+      </div>
+    </div>
+
+    <div id="bit-breakdown">
+      <div class="bd-label">Bit breakdown (8-bit display)</div>
+      <div class="bd-strip" id="bd-strip">
+        <!-- generated by JS -->
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:.6rem;" id="bd-note"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ BITS & BYTES -->
+<section id="bits-bytes">
+  <div class="stag">Deeper</div>
+  <h2>Bits &amp; Bytes</h2>
+  <p>A <strong>bit</strong> is a single binary digit — a 0 or a 1. It's the smallest unit of information a computer can store. The word comes from <em>binary digit</em>.</p>
+  <p>A <strong>byte</strong> is 8 bits grouped together. This is the fundamental unit of computer storage. One byte can represent 2⁸ = <strong>256</strong> different values (0 through 255).</p>
+
+  <h3>Why 8 bits = 1 byte?</h3>
+  <p>Historically it wasn't always 8 — early machines used 6 or 7. The 8-bit byte became standard in the 1960s with IBM's System/360. It's large enough to encode a character (ASCII uses 7 bits, leaving one for error checking), and 8 is a convenient power of 2. The standard stuck and the entire industry aligned around it.</p>
+
+  <h3>The storage unit hierarchy</h3>
+  <table class="t">
+    <thead><tr><th>Unit</th><th>Exact size</th><th>Approximate</th><th>Can hold roughly</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 bit</strong></td><td class="mono">1 bit</td><td class="mono">—</td><td>One yes/no decision</td></tr>
+      <tr><td><strong>1 nibble</strong></td><td class="mono">4 bits</td><td class="mono">—</td><td>One hex digit (0–F)</td></tr>
+      <tr><td><strong>1 byte</strong></td><td class="mono">8 bits</td><td class="mono">—</td><td>One ASCII character</td></tr>
+      <tr><td><strong>1 KB</strong> (kilobyte)</td><td class="mono">1,024 bytes</td><td class="mono">~10³</td><td>A short email</td></tr>
+      <tr><td><strong>1 MB</strong> (megabyte)</td><td class="mono">1,048,576 bytes</td><td class="mono">~10⁶</td><td>A 3-minute MP3 song</td></tr>
+      <tr><td><strong>1 GB</strong> (gigabyte)</td><td class="mono">1,073,741,824 bytes</td><td class="mono">~10⁹</td><td>~250 songs or a movie</td></tr>
+      <tr><td><strong>1 TB</strong> (terabyte)</td><td class="mono">~1.1 trillion bytes</td><td class="mono">~10¹²</td><td>~250,000 songs</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box warn">
+    <div class="box-lbl">KB vs KiB — The Pedantic but Real Distinction</div>
+    "Kilo" technically means 1,000, but in computing, 1 KB has historically meant 1,024 bytes (2¹⁰). In 1998, the IEC introduced <strong>kibibyte (KiB)</strong> to mean exactly 1,024, and <strong>kilobyte (KB)</strong> to mean exactly 1,000. Hard drive manufacturers use the 1,000 definition (makes drives sound bigger). Operating systems often use the 1,024 definition. This mismatch is why a "500 GB" hard drive shows as ~465 GB in Windows. Both sides are "correct" in their own definitions.
+  </div>
+
+  <h3>Data types and bit width</h3>
+  <p>This is why data types in programming have specific sizes and limits. An unsigned 8-bit integer can only hold 0–255. A signed 16-bit integer can hold -32,768 to 32,767. These numbers are not arbitrary — they come directly from binary capacity:</p>
+  <table class="t">
+    <thead><tr><th>Type</th><th>Bits</th><th>Unsigned range</th><th>Signed range</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">uint8 / byte</td><td class="mono">8</td><td class="mono">0 to 255</td><td class="mono">-128 to 127</td></tr>
+      <tr><td class="mono">uint16 / short</td><td class="mono">16</td><td class="mono">0 to 65,535</td><td class="mono">-32,768 to 32,767</td></tr>
+      <tr><td class="mono">uint32 / int</td><td class="mono">32</td><td class="mono">0 to 4,294,967,295</td><td class="mono">~-2.1B to 2.1B</td></tr>
+      <tr><td class="mono">uint64 / long</td><td class="mono">64</td><td class="mono">0 to ~1.8×10¹⁹</td><td class="mono">~-9.2×10¹⁸ to 9.2×10¹⁸</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ TWO'S COMPLEMENT -->
+<section id="twos">
+  <div class="stag">Deeper</div>
+  <h2>Two's Complement</h2>
+  <p>So far we've only talked about positive numbers. But programs need negative numbers. How does a computer represent -5 using only 0s and 1s? The answer used by virtually all modern hardware is <strong>two's complement</strong>.</p>
+  <p>The most significant bit (leftmost) becomes the <strong>sign bit</strong>: 0 = positive, 1 = negative. But it's not as simple as just flipping that bit — that approach (called "sign-magnitude") wastes a bit pattern on negative zero and makes arithmetic circuits more complex. Two's complement is more elegant.</p>
+
+  <h3>How to find the two's complement (negate a number)</h3>
+  <ol style="margin:.5rem 0 1rem 1.4rem;line-height:2.1">
+    <li>Write the positive number in binary</li>
+    <li><strong>Invert all bits</strong> (flip every 0 to 1 and every 1 to 0) — this is called the one's complement</li>
+    <li><strong>Add 1</strong> to the result</li>
+  </ol>
+
+  <h3>Example — Represent -45 in 8-bit two's complement</h3>
+  <div class="tc-grid" style="max-width:460px">
+    <div class="tc-label">Step 1: +45</div>
+    <div class="tc-val mono"><span class="on">0</span><span class="on">0</span><span class="off">1</span><span class="on">0</span><span class="on">1</span><span class="off">1</span><span class="off">0</span><span class="on">1</span> = 45</div>
+    <div class="tc-label">Step 2: Invert</div>
+    <div class="tc-val mono"><span class="on">1</span><span class="on">1</span><span class="off">0</span><span class="on">1</span><span class="on">0</span><span class="off">0</span><span class="off">1</span><span class="on">0</span> = one's complement</div>
+    <div class="tc-label">Step 3: Add 1</div>
+    <div class="tc-val mono"><span class="on">1</span><span class="on">1</span><span class="off">0</span><span class="on">1</span><span class="on">0</span><span class="off">0</span><span class="on">1</span><span class="on">1</span> = <span style="color:var(--amber)">-45</span></div>
+  </div>
+
+  <div class="box info">
+    <div class="box-lbl">The Brilliant Insight Behind Two's Complement</div>
+    Two's complement means the CPU uses <strong>the same circuit for addition and subtraction</strong>. To compute 10 - 3, the CPU actually computes 10 + (-3). It doesn't need a separate subtraction circuit. This is why two's complement won over all other negative number representations — it's hardware-efficient. Also, there is exactly one representation of zero (all bits 0), which simplifies comparisons.
+  </div>
+
+  <h3>8-bit signed integer range</h3>
+  <p>With 8 bits in two's complement: the leftmost bit is the sign bit, leaving 7 bits for magnitude. Positive max = 0111 1111 = <strong>127</strong>. Most negative = 1000 0000 = <strong>-128</strong>. This asymmetry (one more negative than positive) is a direct result of the representation.</p>
+  <p>This is why overflow bugs happen. In many languages, a signed 8-bit integer holding 127, incremented by 1, wraps around to -128. Not a bug in the language — a consequence of the bit representation running out of space.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ BITWISE -->
+<section id="bitwise">
+  <div class="stag">Deeper</div>
+  <h2>Bitwise Operators</h2>
+  <p>Bitwise operators work directly on the individual bits of a number. They're the closest you'll get to CPU-level operations in a high-level language. You need to know them because they appear in low-level code, flags, permissions, and performance-critical paths.</p>
+
+  <h3>AND (&amp;) — both bits must be 1</h3>
+  <div class="bw-op">
+    <div class="bw-name">// 60 &amp; 13 = 12</div>
+    <div class="bw-calc">
+      <span class="row-label">a:</span><span class="bits">0011 1100</span> <span style="color:var(--muted);font-size:12px">(60)</span><br>
+      <span class="row-label">b:</span><span class="bits">0000 1101</span> <span style="color:var(--muted);font-size:12px">(13)</span><br>
+      <span class="bw-calc sep"></span>
+      <span class="row-label res">=:</span><span class="bits res">0000 1100</span> <span style="color:var(--muted);font-size:12px">(12)</span>
+    </div>
+  </div>
+  <p>Use case: <strong>checking if a flag is set</strong>. <code>permissions &amp; READ_FLAG</code> returns non-zero only if the read bit is on.</p>
+
+  <h3>OR (|) — at least one bit must be 1</h3>
+  <div class="bw-op">
+    <div class="bw-name">// 60 | 13 = 61</div>
+    <div class="bw-calc">
+      <span class="row-label">a:</span><span class="bits">0011 1100</span><br>
+      <span class="row-label">b:</span><span class="bits">0000 1101</span><br>
+      <span class="bw-calc sep"></span>
+      <span class="row-label res">=:</span><span class="bits res">0011 1101</span> <span style="color:var(--muted);font-size:12px">(61)</span>
+    </div>
+  </div>
+  <p>Use case: <strong>setting a flag</strong>. <code>permissions | WRITE_FLAG</code> turns the write bit on regardless of its current state.</p>
+
+  <h3>XOR (^) — bits must be different</h3>
+  <div class="bw-op">
+    <div class="bw-name">// 60 ^ 13 = 49</div>
+    <div class="bw-calc">
+      <span class="row-label">a:</span><span class="bits">0011 1100</span><br>
+      <span class="row-label">b:</span><span class="bits">0000 1101</span><br>
+      <span class="bw-calc sep"></span>
+      <span class="row-label res">=:</span><span class="bits res">0011 0001</span> <span style="color:var(--muted);font-size:12px">(49)</span>
+    </div>
+  </div>
+  <p>Use case: <strong>toggling a flag, swapping values without a temp variable, simple encryption</strong>. XORing a value with itself always gives 0. XORing with all 1s inverts all bits. Classic interview trick: find the one non-duplicate in an array by XORing all values.</p>
+
+  <h3>NOT (~) — invert all bits</h3>
+  <div class="bw-op">
+    <div class="bw-name">// ~60 = -61 (in signed integers)</div>
+    <div class="bw-calc">
+      <span class="row-label">a:</span><span class="bits">0011 1100</span> <span style="color:var(--muted);font-size:12px">(60)</span><br>
+      <span class="bw-calc sep"></span>
+      <span class="row-label res">=:</span><span class="bits res">1100 0011</span> <span style="color:var(--muted);font-size:12px">(-61 in two's complement)</span>
+    </div>
+  </div>
+
+  <h3>Left Shift (&lt;&lt;) — multiply by powers of 2</h3>
+  <div class="bw-op">
+    <div class="bw-name">// 5 &lt;&lt; 3 = 40  (5 × 2³ = 5 × 8 = 40)</div>
+    <div class="bw-calc">
+      <span class="row-label">5:</span><span class="bits">0000 0101</span><br>
+      <span class="row-label">3:</span>shift left 3 positions<br>
+      <span class="bw-calc sep"></span>
+      <span class="row-label res">=:</span><span class="bits res">0010 1000</span> <span style="color:var(--muted);font-size:12px">(40)</span>
+    </div>
+  </div>
+
+  <h3>Right Shift (&gt;&gt;) — divide by powers of 2</h3>
+  <div class="bw-op">
+    <div class="bw-name">// 40 &gt;&gt; 2 = 10  (40 ÷ 2² = 40 ÷ 4 = 10)</div>
+    <div class="bw-calc">
+      <span class="row-label">40:</span><span class="bits">0010 1000</span><br>
+      <span class="row-label">2:</span>shift right 2 positions<br>
+      <span class="bw-calc sep"></span>
+      <span class="row-label res">=:</span><span class="bits res">0000 1010</span> <span style="color:var(--muted);font-size:12px">(10)</span>
+    </div>
+  </div>
+
+  <div class="box warn">
+    <div class="box-lbl">Shift Operators as Multiplication / Division</div>
+    <code>n &lt;&lt; k</code> is equivalent to <code>n × 2ᵏ</code> and <code>n &gt;&gt; k</code> is equivalent to <code>n ÷ 2ᵏ</code> (integer division). These were used as performance tricks in older code because bit shifts are faster than multiplication on older CPUs. Modern compilers do this optimization automatically — don't sacrifice readability for it unless you're in embedded or extremely performance-critical code.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ WHY IT MATTERS -->
+<section id="why-matters">
+  <div class="stag">Closing</div>
+  <h2>Why This Matters — Concretely</h2>
+  <p>Everything below is something a working programmer encounters. Every single item connects directly to what you just learned.</p>
+
+  <table class="t">
+    <thead><tr><th>You encounter...</th><th>What it actually is</th></tr></thead>
+    <tbody>
+      <tr><td><code>int overflow: -2147483648</code></td><td>A 32-bit signed int exceeded 2³¹-1 and wrapped using two's complement</td></tr>
+      <tr><td><code>#FF5733</code> in CSS</td><td>Three hex bytes: R=0xFF=255, G=0x57=87, B=0x33=51</td></tr>
+      <tr><td><code>chmod 755</code> on Linux</td><td>Octal 7=111 (rwx), 5=101 (r-x), 5=101 (r-x) — 9 permission bits</td></tr>
+      <tr><td><code>0x00007fff5fbff8a0</code> in a debugger</td><td>A memory address, 48-bit, written in hex for readability</td></tr>
+      <tr><td>A 32-bit OS can't use more than 4GB RAM</td><td>2³² = 4,294,967,296 addressable bytes = 4GB — the address space ceiling</td></tr>
+      <tr><td><code>flags &amp; 0x04</code> in C code</td><td>AND bitmask checking if bit 2 (value 4) is set in a flags variable</td></tr>
+      <tr><td>Unicode codepoint U+1F600</td><td>Hex 1F600 = a specific number in the Unicode table, maps to 😀</td></tr>
+      <tr><td>IPv4 address 192.168.1.1</td><td>Four bytes (each 0–255) — 32 bits total representing a network address</td></tr>
+      <tr><td>A "512 byte sector" on a hard drive</td><td>2⁹ = 512 — hardware designed around powers of 2</td></tr>
+      <tr><td><code>if (x &amp; 1)</code> to check odd/even</td><td>The last bit of any binary number is 1 if odd, 0 if even</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box key" style="margin-top:1.5rem">
+    <div class="box-lbl">The Takeaway</div>
+    You don't need to mentally convert numbers by hand every day. What you need is the <strong>model in your head</strong> — the understanding that everything in a computer is binary, hex is just compressed binary, and data types are just named boundaries on how many bits you're working with. That model is what lets you read an error message, a memory dump, or an API response and immediately understand what you're looking at.
+  </div>
+
+  <hr/>
+  <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:1.5rem">
+    Number Systems — Phase 0 · Build the model, the mechanics follow naturally.
+  </p>
+</section>
+
+</main>
+
+<script>
+/* ── NAV HIGHLIGHT ── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const lnk = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if (lnk) lnk.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+
+/* ── LIVE CONVERTER ── */
+const inputs = {
+  dec: document.getElementById('in-dec'),
+  bin: document.getElementById('in-bin'),
+  hex: document.getElementById('in-hex'),
+  oct: document.getElementById('in-oct'),
+};
+const bdStrip = document.getElementById('bd-strip');
+const bdNote  = document.getElementById('bd-note');
+
+function buildBits(val) {
+  bdStrip.innerHTML = '';
+  if (val === null || isNaN(val) || val < 0) {
+    bdNote.textContent = val < 0 ? 'Negative number — two\'s complement representation would be needed.' : '';
+    return;
+  }
+  const bits = Math.max(8, Math.ceil(Math.log2(val + 1) / 8) * 8);
+  const binStr = val.toString(2).padStart(bits, '0');
+  for (let i = 0; i < binStr.length; i++) {
+    const pos = binStr.length - 1 - i;
+    const d = document.createElement('div');
+    d.className = 'bd-bit';
+    const v = document.createElement('div');
+    v.className = 'bd-bit-val ' + (binStr[i] === '1' ? 'on' : 'off');
+    v.textContent = binStr[i];
+    const p = document.createElement('div');
+    p.className = 'bd-bit-pos';
+    p.textContent = `b${pos}`;
+    const pw = document.createElement('div');
+    pw.className = 'bd-bit-pw';
+    pw.textContent = pos < 11 ? `2^${pos}` : '';
+    d.appendChild(v); d.appendChild(p); d.appendChild(pw);
+    bdStrip.appendChild(d);
+  }
+  bdNote.textContent = `${bits}-bit representation · hex: 0x${val.toString(16).toUpperCase()} · decimal sum: ${val}`;
+}
+
+function updateFrom(source) {
+  let val = null;
+  inputs[source].classList.remove('error');
+  const raw = inputs[source].value.trim();
+  if (raw === '') {
+    Object.values(inputs).forEach(i => { if (i !== inputs[source]) i.value = ''; });
+    bdStrip.innerHTML = ''; bdNote.textContent = ''; return;
+  }
+  try {
+    if (source === 'dec') {
+      val = parseInt(raw, 10);
+      if (isNaN(val) || !/^\d+$/.test(raw)) throw new Error();
+    } else if (source === 'bin') {
+      if (!/^[01]+$/.test(raw)) throw new Error();
+      val = parseInt(raw, 2);
+    } else if (source === 'hex') {
+      if (!/^[0-9A-Fa-f]+$/.test(raw)) throw new Error();
+      val = parseInt(raw, 16);
+    } else if (source === 'oct') {
+      if (!/^[0-7]+$/.test(raw)) throw new Error();
+      val = parseInt(raw, 8);
+    }
+  } catch(e) {
+    inputs[source].classList.add('error');
+    bdStrip.innerHTML = ''; bdNote.textContent = 'Invalid input for this base.'; return;
+  }
+  if (source !== 'dec') inputs.dec.value = val;
+  if (source !== 'bin') inputs.bin.value = val.toString(2);
+  if (source !== 'hex') inputs.hex.value = val.toString(16).toUpperCase();
+  if (source !== 'oct') inputs.oct.value = val.toString(8);
+  buildBits(val);
+}
+
+Object.entries(inputs).forEach(([key, el]) => {
+  el.addEventListener('input', () => updateFrom(key));
+});
+
+/* init with 42 */
+inputs.dec.value = '42';
+updateFrom('dec');
+</script>
+
+</body>
+</html>
